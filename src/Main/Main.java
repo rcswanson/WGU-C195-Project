@@ -1,6 +1,6 @@
-package com.company;
+package Main;
 
-import helper.JDBC;
+import Helper.JDBC;
 
 public class Main {
 
