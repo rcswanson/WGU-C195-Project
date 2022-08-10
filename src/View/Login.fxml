@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -15,11 +16,16 @@
       </Text>
       <TextField fx:id="loginID" layoutX="138.0" layoutY="105.0" prefHeight="36.0" prefWidth="225.0" promptText="User ID" />
       <TextField fx:id="loginPass" layoutX="138.0" layoutY="159.0" prefHeight="36.0" prefWidth="225.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="217.0" layoutY="219.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="66.0" text="Login" textAlignment="CENTER">
+      <Button fx:id="loginButton" layoutX="217.0" layoutY="219.0" mnemonicParsing="false" onAction="#onLoginB" prefHeight="36.0" prefWidth="66.0" text="Login" textAlignment="CENTER">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Button>
-      <Text fx:id="loginTimeZone" layoutX="416.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Zone" />
+      <Text fx:id="loginTimeZone" layoutX="461.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TBD" AnchorPane.rightAnchor="14.7646484375" />
+      <Label layoutX="402.0" layoutY="245.0" text="Time Zone">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
