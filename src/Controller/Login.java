@@ -54,12 +54,11 @@ public class Login implements Initializable {
 
         loginTimeZone.setText(String.valueOf(ZoneId.systemDefault()));
 
-        resourceBundle = ResourceBundle.getBundle("Languages/english");
-        clientSchedules.setText(resourceBundle.getString("clientSchedule"));
-        loginID.setPromptText(resourceBundle.getString("userIdPrompt"));
-        loginPass.setPromptText(resourceBundle.getString("passwordPrompt"));
-        loginButton.setText(resourceBundle.getString("loginButton"));
-        timeZoneText.setText(resourceBundle.getString("timeZoneText"));
+        clientSchedules.setText(FunctionLibrary.setLanguage.getString("clientSchedule"));
+        loginID.setPromptText(FunctionLibrary.setLanguage.getString("userIdPrompt"));
+        loginPass.setPromptText(FunctionLibrary.setLanguage.getString("passwordPrompt"));
+        loginButton.setText(FunctionLibrary.setLanguage.getString("loginButton"));
+        timeZoneText.setText(FunctionLibrary.setLanguage.getString("timeZoneText"));
 
 
 

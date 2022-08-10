@@ -1,31 +1,34 @@
 package Model;
 
-import Controller.Login;
 import javafx.scene.control.Alert;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class FunctionLibrary {
+
+    public static final ResourceBundle setLanguage = ResourceBundle.getBundle("Languages/language", Locale.getDefault());
 
     public static void displayAlert(int alertType) {
 
         Alert alertError = new Alert(Alert.AlertType.ERROR);
 
         switch (alertType) {
-
-            case 1:
-                alertError.setTitle("ERROR");
-                alertError.setHeaderText("User ID and Password Not Found!");
+            case 1 -> {
+                alertError.setTitle(setLanguage.getString("error"));
+                alertError.setHeaderText(setLanguage.getString("idAndPasswordError"));
                 alertError.showAndWait();
-                break;
-            case 2:
-                alertError.setTitle("ERROR");
-                alertError.setHeaderText("User ID Not Found!");
+            }
+            case 2 -> {
+                alertError.setTitle(setLanguage.getString("error"));
+                alertError.setHeaderText(setLanguage.getString("idError"));
                 alertError.showAndWait();
-                break;
-            case 3:
-                alertError.setTitle("ERROR");
-                alertError.setHeaderText("Password Not Found!");
+            }
+            case 3 -> {
+                alertError.setTitle(setLanguage.getString("error"));
+                alertError.setHeaderText(setLanguage.getString("passwordError"));
                 alertError.showAndWait();
-                break;
+            }
         }
     }
 
