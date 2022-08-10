@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -15,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Login implements Initializable {
@@ -26,6 +26,8 @@ public class Login implements Initializable {
     public TextField loginPass;
     public Button loginButton;
     public Text loginTimeZone;
+    public Text clientSchedules;
+    public Text timeZoneText;
 
     public void onLoginB(ActionEvent event) throws IOException {
 
@@ -46,14 +48,19 @@ public class Login implements Initializable {
         }
     }
 
-    public void setLanguage() {
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         loginTimeZone.setText(String.valueOf(ZoneId.systemDefault()));
+
+        resourceBundle = ResourceBundle.getBundle("Languages/english");
+        clientSchedules.setText(resourceBundle.getString("clientSchedule"));
+        loginID.setPromptText(resourceBundle.getString("userIdPrompt"));
+        loginPass.setPromptText(resourceBundle.getString("passwordPrompt"));
+        loginButton.setText(resourceBundle.getString("loginButton"));
+        timeZoneText.setText(resourceBundle.getString("timeZoneText"));
+
 
 
     }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -9,23 +8,19 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="500.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Login">
    <children>
-      <Text layoutX="116.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CLIENT SCHEDULES" wrappingWidth="268.6266784667969">
+      <Text fx:id="clientSchedules" layoutX="33.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CLIENT SCHEDULES" textAlignment="CENTER" wrappingWidth="434.6266784667969">
          <font>
             <Font name="Ayuthaya" size="28.0" />
          </font>
       </Text>
       <TextField fx:id="loginID" layoutX="138.0" layoutY="105.0" prefHeight="36.0" prefWidth="225.0" promptText="User ID" />
       <TextField fx:id="loginPass" layoutX="138.0" layoutY="159.0" prefHeight="36.0" prefWidth="225.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="217.0" layoutY="219.0" mnemonicParsing="false" onAction="#onLoginB" prefHeight="36.0" prefWidth="66.0" text="Login" textAlignment="CENTER">
+      <Button fx:id="loginButton" layoutX="171.0" layoutY="220.0" mnemonicParsing="false" onAction="#onLoginB" prefHeight="36.0" prefWidth="159.0" text="Login" textAlignment="CENTER">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Button>
-      <Text fx:id="loginTimeZone" layoutX="461.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TBD" AnchorPane.rightAnchor="14.7646484375" />
-      <Label layoutX="402.0" layoutY="245.0" text="Time Zone">
-         <font>
-            <Font name="Arial Black" size="13.0" />
-         </font>
-      </Label>
+      <Text fx:id="loginTimeZone" layoutX="455.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TBD" AnchorPane.rightAnchor="20.7646484375" />
+      <Text fx:id="timeZoneText" layoutX="394.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Zone" underline="true" />
    </children>
 </AnchorPane>
