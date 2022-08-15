@@ -20,6 +20,8 @@ import java.sql.Statement;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
+import java.util.Timer;
 
 
 public class LoginController implements Initializable {
@@ -39,18 +41,18 @@ public class LoginController implements Initializable {
 
         loginTimeZone.setText(String.valueOf(ZoneId.systemDefault()));
 
+        Locale locale = Locale.getDefault();
+        Locale.setDefault(locale);
+
         clientSchedules.setText(FunctionLibrary.setLanguage.getString("clientSchedule"));
         loginName.setPromptText(FunctionLibrary.setLanguage.getString("userNamePrompt"));
         loginPass.setPromptText(FunctionLibrary.setLanguage.getString("passwordPrompt"));
         loginButton.setText(FunctionLibrary.setLanguage.getString("loginButton"));
         timeZoneText.setText(FunctionLibrary.setLanguage.getString("timeZoneText"));
 
-        Locale locale = Locale.getDefault();
-        Locale.setDefault(locale);
-
     }
 
-    public void onLoginB(ActionEvent event) throws SQLException {
+    public void onLoginB(ActionEvent event) {
 
         try {
             String username = loginName.getText();
