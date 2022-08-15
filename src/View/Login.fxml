@@ -7,14 +7,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Login">
+<AnchorPane prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
       <Text fx:id="clientSchedules" layoutX="33.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CLIENT SCHEDULES" textAlignment="CENTER" wrappingWidth="434.6266784667969">
          <font>
             <Font name="Ayuthaya" size="28.0" />
          </font>
       </Text>
-      <TextField fx:id="loginID" layoutX="138.0" layoutY="105.0" prefHeight="36.0" prefWidth="225.0" promptText="User ID" />
+      <TextField fx:id="loginName" layoutX="138.0" layoutY="105.0" prefHeight="36.0" prefWidth="225.0" promptText="Username" />
       <TextField fx:id="loginPass" layoutX="138.0" layoutY="159.0" prefHeight="36.0" prefWidth="225.0" promptText="Password" />
       <Button fx:id="loginButton" defaultButton="true" layoutX="171.0" layoutY="220.0" mnemonicParsing="false" onAction="#onLoginB" prefHeight="36.0" prefWidth="159.0" style="-fx-border-color: black;" text="Login" textAlignment="CENTER">
          <font>

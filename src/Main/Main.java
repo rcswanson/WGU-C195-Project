@@ -1,7 +1,5 @@
 package Main;
 
-import Controller.Login;
-import Helper.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
