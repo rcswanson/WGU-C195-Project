@@ -1,6 +1,6 @@
 package Controller;
 
-import Main.JDBC;
+import Model.User;
 import Utilities.FunctionLibrary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -14,14 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.ZoneId;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-import java.util.Timer;
 
 
 public class LoginController implements Initializable {
@@ -39,10 +34,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        loginTimeZone.setText(String.valueOf(ZoneId.systemDefault()));
-
-        Locale locale = Locale.getDefault();
-        Locale.setDefault(locale);
+        loginTimeZone.setText(String.valueOf(ZoneId.of(TimeZone.getDefault().getID())));
 
         clientSchedules.setText(FunctionLibrary.setLanguage.getString("clientSchedule"));
         loginName.setPromptText(FunctionLibrary.setLanguage.getString("userNamePrompt"));
@@ -54,10 +46,11 @@ public class LoginController implements Initializable {
 
     public void onLoginB(ActionEvent event) {
 
+        String username = loginName.getText();
+        String password = loginPass.getText();
+        int userId = User.checkCreds(username, password);
+
         try {
-            String username = loginName.getText();
-            String password = loginPass.getText();
-            int userId = checkCreds(username, password);
             if (loginName.getText().isEmpty() && loginPass.getText().isEmpty()) {
             FunctionLibrary.displayAlert(1);
             } else if (loginName.getText().isEmpty()) {
@@ -75,24 +68,5 @@ public class LoginController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static int checkCreds(String username, String password) {
-
-        try {
-            String query = "SELECT * FROM users";
-            Statement stmt = JDBC.connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                if (rs.getString("User_Name").equals(username)) {
-                    if (rs.getString("Password").equals(password)) {
-                        return rs.getInt("User_ID");
-                    }
-                }
-            }
-        } catch (SQLException se) {
-            se.printStackTrace();
-        }
-        return -1;
     }
 }

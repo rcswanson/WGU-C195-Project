@@ -1,16 +1,19 @@
 package Model;
 
-import Main.JDBC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static Main.JDBC.connection;
+
 public class User {
 
-    private static int userId;
-    private static String username;
-    private static String password;
+    private int userId;
+    private String username;
+    private String password;
 
     public User() {
         userId = 0;
@@ -19,9 +22,9 @@ public class User {
     }
 
     public User(int userId, String username, String password) {
-        User.userId = userId;
-        User.username = username;
-        User.password = password;
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
 
     }
 
@@ -41,15 +44,57 @@ public class User {
 
     // the setters of the User class
     public void setUserId(int userId) {
-        User.userId = userId;
+        this.userId = userId;
     }
 
     public void setUsername(String username) {
-        User.username = username;
+        this.username = username;
     }
 
     public void setPassword(String password) {
-        User.password = password;
+        this.password = password;
     }
 
+    public static ObservableList<User> getUsers() {
+        ObservableList<User> users = FXCollections.observableArrayList();
+        try {
+            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM users");
+            ResultSet rs = pStmt.executeQuery();
+            while (rs.next()) {
+                User newUser = new User(
+                        rs.getInt("User_ID"),
+                        rs.getString("User_Name"),
+                        rs.getString("Password"));
+                users.add(newUser);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * checks that the username and password inputted in login matches the users in the database
+     * @param username User_Name
+     * @param password Password
+     * @return User_ID
+     */
+    public static int checkCreds(String username, String password) {
+
+        try {
+            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM users");
+            ResultSet rs = pStmt.executeQuery();
+            while (rs.next()) {
+                if (rs.getString("User_Name").equals(username)) {
+                    if (rs.getString("Password").equals(password)) {
+                        return rs.getInt("User_ID");
+                    }
+                }
+            }
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return -1;
+    }
 }
