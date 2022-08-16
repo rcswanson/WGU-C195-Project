@@ -7,8 +7,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import static Main.JDBC.connection;
 import static Model.Customer.getCustomers;
 
 public class CustomersTabController implements Initializable {
@@ -37,13 +41,13 @@ public class CustomersTabController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        customerTableView.setItems(getCustomers()); // Sets the partsTable view to the observable list
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        customerTableView.setItems(getCustomers());
+        idCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
-        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        divisionIdCol.setCellValueFactory(new PropertyValueFactory<>("divId"));
+        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        divisionIdCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
         countryIdCol.setCellValueFactory(new PropertyValueFactory<>("countryId"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));

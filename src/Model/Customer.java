@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import static Main.JDBC.connection;
 
@@ -110,11 +111,7 @@ public class Customer {
     public static ObservableList<Customer> getCustomers() {
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         try {
-            PreparedStatement pStmt = connection.prepareStatement("SELECT customers.Customer_ID, customers.Customer_Name, " +
-                    "customers.Address, customers.Postal_Code, customers.Phone, customers.Division_ID, " +
-                    "first_level_divisions.Division, countries.Country_ID, countries.Country " +
-                    "INNER JOIN first_level_divisions ON first_level_divisions.Division_ID = customers.Division_ID " +
-                    "INNER JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID");
+            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM customers");
             ResultSet rs = pStmt.executeQuery();
             while (rs.next()) {
                 Customer newCustomer = new Customer(
