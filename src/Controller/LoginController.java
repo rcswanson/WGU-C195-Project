@@ -61,6 +61,7 @@ public class LoginController implements Initializable {
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/View/MainTabs.fxml"));
                 stage.setScene(new Scene(scene));
+                stage.setResizable(false);
                 stage.show();
             } else if (userId < 0) {
                 FunctionLibrary.displayAlert(1);

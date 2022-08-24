@@ -1,15 +1,5 @@
 package Model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import static Main.JDBC.connection;
-
 public class Customer {
 
     private int customerId;
@@ -34,6 +24,9 @@ public class Customer {
         this.country = country;
         this.divisionId = divisionId;
         this.countryId = countryId;
+    }
+
+    public Customer(int id, String name, String address, String postalCode, String phone) {
     }
 
     public int getCustomerId() {
@@ -108,28 +101,4 @@ public class Customer {
         this.countryId = countryId;
     }
 
-    public static ObservableList<Customer> getCustomers() {
-        ObservableList<Customer> customers = FXCollections.observableArrayList();
-        try {
-            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM customers");
-            ResultSet rs = pStmt.executeQuery();
-            while (rs.next()) {
-                Customer newCustomer = new Customer(
-                        rs.getInt("Customer_ID"),
-                        rs.getString("Customer_Name"),
-                        rs.getString("Address"),
-                        rs.getString("Postal_Code"),
-                        rs.getString("Phone"),
-                        rs.getString("Division"),
-                        rs.getString("Country"),
-                        rs.getInt("Division_ID"),
-                        rs.getInt("Country_ID"));
-                customers.add(newCustomer);
-            }
-            return customers;
-        } catch(SQLException se){
-                se.printStackTrace();
-            }
-            return null;
-        }
-    }
+}

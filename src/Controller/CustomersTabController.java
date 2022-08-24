@@ -1,30 +1,32 @@
 package Controller;
 
 import Model.Customer;
+import Utilities.CustomerQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static Main.JDBC.connection;
-import static Model.Customer.getCustomers;
+import static Utilities.CustomerQuery.customers;
+import static Utilities.CustomerQuery.getCustomers;
+
 
 public class CustomersTabController implements Initializable {
+
     public TableView<Customer> customerTableView;
     public Button addCustomer;
     public Button editCustomer;
     public Button deleteCustomer;
     public TextField userIdTextField;
-    public TextField nameTextField;
-    public TextField addressTextField;
-    public TextField zipCodeTextField;
-    public TextField phoneTextField;
+    public static TextField nameTextField;
+    public static TextField addressTextField;
+    public static TextField zipCodeTextField;
+    public static TextField phoneTextField;
     public ComboBox countryComboBox;
     public ComboBox divisionComboBox;
 
@@ -37,6 +39,9 @@ public class CustomersTabController implements Initializable {
     public TableColumn<Object, Object> divisionCol;
     public TableColumn<Object, Object> countryIdCol;
     public TableColumn<Object, Object> countryCol;
+
+    public static int autoId = 1;
+    public Customer SC;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,6 +65,28 @@ public class CustomersTabController implements Initializable {
     public void onEditCustomerB(ActionEvent event) {
     }
 
-    public void onDeleteCustomerB(ActionEvent event) {
+    public void onDeleteCustomerB() {
+
+        if(customerTableView.getSelectionModel().getSelectedItem() != null) {
+            SC = customerTableView.getSelectionModel().getSelectedItem();
+        } else {
+            return;
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Customer");
+        alert.setHeaderText("Delete Customer Record");
+        alert.setContentText("Would you like to delete " + SC.getCustomerName() + " from customer records?");
+        alert.showAndWait().ifPresent((response -> {
+            if(response == ButtonType.OK) {
+                try {
+                    CustomerQuery.deleteCustomer(SC.getCustomerId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                customerTableView.setItems(CustomerQuery.getCustomers());
+            }
+        }));
+
     }
+
 }

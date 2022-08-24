@@ -14,6 +14,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load((getClass().getResource("/View/Login.fxml")));
         login.setTitle("QAM2 Project");
         login.setScene(new Scene(root, 500, 300));
+        login.setResizable(false);
         login.show();
     }
 
