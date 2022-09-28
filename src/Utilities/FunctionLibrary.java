@@ -18,12 +18,12 @@ public class FunctionLibrary {
     static Parent scene;
 
     /**
-     * The Resource Bundle for the two languages supported on the login page
+     * THE RESOURCE BUNDLE FOR THE TWO LANGAUGES SUPPORTED ON THE LOGIN PAGE
      */
     public static final ResourceBundle setLanguage = ResourceBundle.getBundle("Languages/language", Locale.getDefault());
 
     /**
-     * The several cases of alerts throughout the program
+     * SEVERAL CASES OF ALERTS THROUGHOUT PROGRAM
      */
     public static void displayAlert(int alertType) {
 

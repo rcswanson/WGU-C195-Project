@@ -19,6 +19,8 @@ public class MainTabsController {
     public AnchorPane customersTab;
     public Button logOut;
 
+
+    // LOGS OUT OF SESSION AND RETURNS TO LOGIN WINDOW
     public void onLogOut(ActionEvent event) throws IOException {
 
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

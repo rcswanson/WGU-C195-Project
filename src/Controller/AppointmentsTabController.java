@@ -3,6 +3,7 @@ package Controller;
 import Model.Appointment;
 import Utilities.AppointmentQuery;
 import Utilities.CustomerQuery;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -10,6 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import static Utilities.AppointmentQuery.getAppointments;
 
 public class AppointmentsTabController implements Initializable {
 
@@ -34,7 +37,8 @@ public class AppointmentsTabController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        appointmentTableView.setItems(AppointmentQuery.getAppointments());
+        // SETS EACH COLUMN TO APPOINTMENT INFO
+        appointmentTableView.setItems(getAppointments());
         idCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         desCol.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -47,7 +51,18 @@ public class AppointmentsTabController implements Initializable {
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
-    public void onCancelAppt() {
+    public void onAddAppt(ActionEvent event) {
+    }
+
+
+    public void onEditAppt(ActionEvent event) {
+    }
+
+    /**
+     * DELETES DATABASE ENTRY OF SELECTED APPOINTMENT
+     * @param event DELETE APPOINTMENT CLICKED
+     */
+    public void onCancelAppt(ActionEvent event) {
 
         if(appointmentTableView.getSelectionModel().getSelectedItem() != null) {
             SA = appointmentTableView.getSelectionModel().getSelectedItem();
@@ -60,12 +75,8 @@ public class AppointmentsTabController implements Initializable {
         alert.setContentText("Would you like to cancel the appointment " + SA.getTitle() + " from the records?");
         alert.showAndWait().ifPresent((response -> {
             if(response == ButtonType.OK) {
-                try {
-                    CustomerQuery.deleteCustomer(SA.getCustomerId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                appointmentTableView.setItems(AppointmentQuery.getAppointments());
+                AppointmentQuery.cancelAppointment(SA.getAppointmentId());
+                appointmentTableView.setItems(getAppointments());
             }
         }));
 

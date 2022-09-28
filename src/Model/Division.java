@@ -15,29 +15,36 @@ public class Division {
     private String division;
     private int countryId;
 
+    // CONSTRUCTOR
     public Division(int divisionId, String division, int countryId) {
         this.divisionId = divisionId;
         this.division = division;
         this.countryId = countryId;
     }
 
-    public ObservableList<Division> getDivisions() {
-        ObservableList<Division> divisions = FXCollections.observableArrayList();
-        try {
-            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM first_level_divisions");
-            ResultSet rs = pStmt.executeQuery();
-            while (rs.next()) {
-                Division newDivision = new Division(
-                        rs.getInt("Division_ID"),
-                        rs.getString("Division"),
-                        rs.getInt("Country_ID"));
-                divisions.add(newDivision);
-            }
-            return divisions;
-        } catch (SQLException se) {
-            se.printStackTrace();
-        }
-        return null;
+
+    // GETTERS AND SETTERS
+    public int getDivisionId() {
+        return divisionId;
     }
 
+    public String getDivision() {
+        return division;
+    }
+
+    public int getCountryId() {
+        return countryId;
+    }
+
+    public void setDivisionId(int divisionId) {
+        this.divisionId = divisionId;
+    }
+
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
+    }
 }

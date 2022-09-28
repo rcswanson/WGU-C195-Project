@@ -26,6 +26,8 @@ public class Appointment {
     private int customerId;
     private int userId;
 
+
+    // CONSTRUCTOR
     public Appointment(int appointmentId, String title, String description,
                        String location, String contactId, String type, LocalDate startDate,
                        LocalDateTime startTime, LocalDate endDate, LocalDateTime endTime,
@@ -44,6 +46,8 @@ public class Appointment {
         this.userId = userId;
     }
 
+
+    // GETTERS AND SETTERS
     public int getAppointmentId() { return appointmentId; }
 
     public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }

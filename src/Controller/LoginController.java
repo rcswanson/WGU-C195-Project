@@ -34,8 +34,10 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // DISPLAYS TIME ZONE
         loginTimeZone.setText(String.valueOf(ZoneId.of(TimeZone.getDefault().getID())));
 
+        // CHANGES TEXT TO ENGLISH OR FRENCH
         clientSchedules.setText(FunctionLibrary.setLanguage.getString("clientSchedule"));
         loginName.setPromptText(FunctionLibrary.setLanguage.getString("userNamePrompt"));
         loginPass.setPromptText(FunctionLibrary.setLanguage.getString("passwordPrompt"));
@@ -44,6 +46,10 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     * MATCHES INPUT WITH DATABASE INFO AND GRANTS ACCESS IF CORRECT
+     * @param event LOGIN BUTTON CLICKED
+     */
     public void onLoginB(ActionEvent event) {
 
         String username = loginName.getText();
@@ -61,6 +67,7 @@ public class LoginController implements Initializable {
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/View/MainTabs.fxml"));
                 stage.setScene(new Scene(scene));
+                stage.centerOnScreen();
                 stage.setResizable(false);
                 stage.show();
             } else if (userId < 0) {

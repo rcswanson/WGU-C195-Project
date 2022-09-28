@@ -21,6 +21,7 @@ public class User {
         password = null;
     }
 
+    // CONSTRUCTOR
     public User(int userId, String username, String password) {
         this.userId = userId;
         this.username = username;
@@ -28,7 +29,7 @@ public class User {
 
     }
 
-    //The getters of the User class
+    // GETTERS AND SETTERS
     public int getUserId() {
         return userId;
     }
@@ -41,8 +42,6 @@ public class User {
         return password;
     }
 
-
-    // the setters of the User class
     public void setUserId(int userId) {
         this.userId = userId;
     }
@@ -55,6 +54,10 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * OBSERVABLE LIST OF DATA ENTRIES IN THE USERS SCHEMA
+     * @return USERS
+     */
     public static ObservableList<User> getUsers() {
         ObservableList<User> users = FXCollections.observableArrayList();
         try {
@@ -75,7 +78,7 @@ public class User {
     }
 
     /**
-     * checks that the username and password inputted in login matches the users in the database
+     * CHECKS FOR A MATCH BETWEEN INPUT AND USER DATA IN DATABASE
      * @param username User_Name
      * @param password Password
      * @return User_ID

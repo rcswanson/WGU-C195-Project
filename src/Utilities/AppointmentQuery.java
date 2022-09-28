@@ -1,5 +1,6 @@
 package Utilities;
 
+import Main.JDBC;
 import Model.Appointment;
 import Model.Customer;
 import javafx.collections.FXCollections;
@@ -8,6 +9,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import static Main.JDBC.connection;
 
@@ -15,6 +17,7 @@ public class AppointmentQuery {
 
     static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
+    // OBSERVABLE LIST OF DATA ENTRIES IN APPOINTMENTS SCHEMA
     public static ObservableList<Appointment> getAppointments() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         try {
@@ -43,13 +46,18 @@ public class AppointmentQuery {
         return null;
     }
 
-    public static boolean deleteAppointment(Appointment selectedAppt) {
-        if (appointments.contains(selectedAppt)) {
-            appointments.remove(selectedAppt);
-            return true;
+    // EXECUTES SQL STATEMENT TO DELETE APPOINTMENT FROM DATABASE
+    public static boolean cancelAppointment(int appointmentId) {
+        try {
+            Statement statement = JDBC.getConnection().createStatement();
+            String query = "DELETE FROM appointments WHERE Customer_ID = " + appointmentId;
+            int update = statement.executeUpdate(query);
+            if(update == 1) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }

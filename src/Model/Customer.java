@@ -9,12 +9,11 @@ public class Customer {
     private String phoneNumber;
     private String division;
     private String country;
-    private int divisionId;
-    private int countryId;
 
+    // CONSTRUCTOR
     public Customer(int customerId, String customerName, String address,
                     String postalCode, String phoneNumber, String division,
-                    String country, int divisionId, int countryId) {
+                    String country) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -22,13 +21,9 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.division = division;
         this.country = country;
-        this.divisionId = divisionId;
-        this.countryId = countryId;
     }
 
-    public Customer(int id, String name, String address, String postalCode, String phone) {
-    }
-
+    // GETTERS AND SETTERS
     public int getCustomerId() {
         return customerId;
     }
@@ -83,22 +78,6 @@ public class Customer {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public int getDivisionId() {
-        return divisionId;
-    }
-
-    public void setDivisionId(int divisionId) {
-        this.divisionId = divisionId;
-    }
-
-    public int getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
     }
 
 }

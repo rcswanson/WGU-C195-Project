@@ -15,12 +15,14 @@ public class Contact {
     private String contactName;
     private String contactEmail;
 
+    // CONSTRUCTOR
     public Contact(int contactId, String contactName, String contactEmail) {
         this.contactId = contactId;
         this.contactName = contactName;
         this.contactEmail = contactEmail;
     }
 
+    // GETTERS AND SETTERS
     public int getContactId() { return contactId; }
 
     public void setContactId(int contactId) { this.contactId = contactId; }
@@ -33,6 +35,11 @@ public class Contact {
 
     public void setContactEmail(String contactEmail) { this.contactEmail = contactEmail; }
 
+
+    /**
+     * OBSERVABLE LIST OF DATA ENTRIES IN CONTACTS SCHEMA
+     * @return CONTACTS
+     */
     public static ObservableList<Contact> getContacts() {
         ObservableList<Contact> contacts = FXCollections.observableArrayList();
         try {
