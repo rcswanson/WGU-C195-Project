@@ -2,7 +2,6 @@ package Utilities;
 
 import Main.JDBC;
 import Model.Customer;
-import Model.Division;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,25 +14,26 @@ import static Main.JDBC.connection;
 
 public class CustomerQuery {
 
+    // OBSERVABLE LIST OF DATA ENTRIES IN CUSTOMERS SCHEMA
     public static ObservableList<Customer> customers = FXCollections.observableArrayList();
 
-    // OBSERVABLE LIST OF DATA ENTRIES IN CUSTOMERS SCHEMA
+    // METHOD ADDS ALL ENTRIES IN DATABASE TO OBSERVABLE LIST
     public static ObservableList<Customer> getCustomers() {
         try {
             PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM customers");
             ResultSet rs = pStmt.executeQuery();
-            Customer newCustomer = null;
             while (rs.next()) {
-                newCustomer = new Customer(
+               Customer newCustomer = new Customer(
                         rs.getInt("Customer_ID"),
                         rs.getString("Customer_Name"),
                         rs.getString("Address"),
                         rs.getString("Postal_Code"),
                         rs.getString("Phone"),
+                        rs.getInt("Division_ID"),
                         rs.getString("Division"),
                         rs.getString("Country"));
+                customers.add(newCustomer);
             }
-            customers.add(newCustomer);
             return customers;
         } catch (SQLException se) {
             se.printStackTrace();
@@ -59,6 +59,7 @@ public class CustomerQuery {
         try {
 
         preparedStatement.execute();
+
 
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());

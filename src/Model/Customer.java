@@ -2,23 +2,25 @@ package Model;
 
 public class Customer {
 
-    private int customerId;
+    private static int customerId;
     private String customerName;
     private String address;
     private String postalCode;
     private String phoneNumber;
+    private int divisionId;
     private String division;
     private String country;
 
     // CONSTRUCTOR
     public Customer(int customerId, String customerName, String address,
-                    String postalCode, String phoneNumber, String division,
+                    String postalCode, String phoneNumber, int divisionId, String division,
                     String country) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
+        this.divisionId = divisionId;
         this.division = division;
         this.country = country;
     }
@@ -63,6 +65,10 @@ public class Customer {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public int getDivisionId() { return divisionId; }
+
+    public void setDivisionId(int divisionId) { this.divisionId = divisionId; }
 
     public String getDivision() {
         return division;

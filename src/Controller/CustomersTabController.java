@@ -1,5 +1,6 @@
 package Controller;
 
+import Main.JDBC;
 import Model.Country;
 import Model.Customer;
 import Model.Division;
@@ -14,9 +15,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static Main.JDBC.getConnection;
+import static Utilities.CustomerQuery.customers;
 import static Utilities.CustomerQuery.getCustomers;
 
 
@@ -49,15 +55,6 @@ public class CustomersTabController implements Initializable {
     public TableColumn<Object, Object> countryIdCol;
     public TableColumn<Object, Object> countryCol;
 
-    private static int index;
-    public static int modifyIndex() { return index; }
-
-    private static Customer customerToModify;
-
-    // SELECTED ITEM OF CUSTOMER MODEL
-    public Customer SC;
-    public Customer SCForDeletion;
-
     int autoId = 0;
 
     @Override
@@ -77,7 +74,26 @@ public class CustomersTabController implements Initializable {
         // SETS COUNTRIES AND DIVISIONS TO THEIR RESPECTIVE COMBO BOX
         setCountryComboBox();
         setDivisionComboBox();
-//
+
+    }
+
+    /**
+     * POPULATES DIVISION COMBO BOX CONCURRENT WITH SELECTED COUNTRY
+     * @param event COMBO BOX CLICKED
+     */
+    public void onSelectCountry(ActionEvent event) {
+        ObservableList<String> divisionList = FXCollections.observableArrayList();
+        try {
+            ObservableList<Division> divisions = DivisionQuery.getDivisionsByCountry(countryComboBox.getSelectionModel().getSelectedItem());
+            if (divisions != null) {
+                for (Division division: divisions) {
+                    divisionList.add(division.getDivision());
+                }
+            }
+            divisionComboBox.setItems(divisionList);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -105,76 +121,37 @@ public class CustomersTabController implements Initializable {
     }
 
     /**
-     * POPULATES DIVISION COMBO BOX CONCURRENT WITH SELECTED COUNTRY
-     * @param event COMBO BOX CLICKED
-     */
-    public void onSelectCountry(ActionEvent event) {
-        ObservableList<String> divisionList = FXCollections.observableArrayList();
-        try {
-            ObservableList<Division> divisions = DivisionQuery.getDivisionsByCountry(countryComboBox.getSelectionModel().getSelectedItem());
-            if (divisions != null) {
-                for (Division division: divisions) {
-                    divisionList.add(division.getDivision());
-                }
-            }
-            divisionComboBox.setItems(divisionList);
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * PARSES INFO FROM SELECTED DATABASE ENTRY AND POPULATES TEXT FIELDS FOR MODIFICATION
-     * @param event EDIT CUSTOMER CLICKED
-     */
-    public void onEditCustomerB(ActionEvent event) {
-
-        customerToModify = customerTableView.getSelectionModel().getSelectedItem();
-        index = getCustomers().indexOf(customerToModify);
-
-        SC = getCustomerToModify();
-
-        idTextField.setText(String.valueOf(SC.getCustomerId()));
-        nameTextField.setText(SC.getCustomerName());
-        addressTextField.setText(String.valueOf(SC.getAddress()));
-        zipCodeTextField.setText(String.valueOf(SC.getPostalCode()));
-        phoneTextField.setText(String.valueOf(SC.getPhoneNumber()));
-        }
-
-    public static Customer getCustomerToModify() { return customerToModify; }
-
-    /**
      * DELETES DATABASE ENTRY OF SELECTED CUSTOMER
      * @param event DELETE CUSTOMER CLICKED
      */
     public void onDeleteCustomerB(ActionEvent event) {
 
-        if (customerTableView.getSelectionModel().getSelectedItem() != null) {
-            SCForDeletion = customerTableView.getSelectionModel().getSelectedItem();
-        } else {
-            return;
-        }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Customer");
-        alert.setHeaderText("Delete Customer Record");
-        alert.setContentText("Would you like to delete " + SCForDeletion.getCustomerName() + " from customer records?");
-        alert.showAndWait().ifPresent((response -> {
-            if (response == ButtonType.OK) {
+        Customer SC = customerTableView.getSelectionModel().getSelectedItem();
+        if (SC == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("You must select a customer to delete.");
+            alert.showAndWait();
+        } else if (customerTableView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to delete " + SC.getCustomerName() + " from customer records?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && (result.get() == ButtonType.OK)) {
                 try {
-                    CustomerQuery.deleteCustomer(SCForDeletion.getCustomerId());
-                } catch (SQLException e) {
+                    CustomerQuery.deleteCustomer(SC.getCustomerId());
+                    customers.remove(SC);
+                    customerTableView.setItems(CustomerQuery.getCustomers());
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                customerTableView.setItems(CustomerQuery.getCustomers());
             }
-        }));
-
+        }
     }
 
     /**
      * SETS COMBO BOX TO CONTAIN COUNTRIES
      */
-    private void setCountryComboBox(){
+    private void setCountryComboBox() {
         ObservableList<String> countryList = FXCollections.observableArrayList();
 
         try {
