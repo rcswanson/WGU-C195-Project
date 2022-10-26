@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Appointment;
+import Model.Customer;
 import Utilities.AppointmentQuery;
 import Utilities.CustomerQuery;
 import javafx.event.ActionEvent;
@@ -10,13 +11,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static Utilities.AppointmentQuery.appointments;
 import static Utilities.AppointmentQuery.getAppointments;
+import static Utilities.CustomerQuery.customers;
 
 public class AppointmentsTabController implements Initializable {
 
     public TableView<Appointment> appointmentTableView;
+
     public TableColumn<Object, Object> idCol;
     public TableColumn<Object, Object> titleCol;
     public TableColumn<Object, Object> desCol;
@@ -32,10 +37,10 @@ public class AppointmentsTabController implements Initializable {
     public Button editAppointment;
     public Button cancelAppointment;
 
-    public Appointment SA;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
 
         // SETS EACH COLUMN TO APPOINTMENT INFO
         appointmentTableView.setItems(getAppointments());
@@ -64,21 +69,25 @@ public class AppointmentsTabController implements Initializable {
      */
     public void onCancelAppt(ActionEvent event) {
 
-        if(appointmentTableView.getSelectionModel().getSelectedItem() != null) {
-            SA = appointmentTableView.getSelectionModel().getSelectedItem();
-        } else {
-            return;
-        }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancel Appointment");
-        alert.setHeaderText("Cancel Appointment");
-        alert.setContentText("Would you like to cancel the appointment " + SA.getTitle() + " from the records?");
-        alert.showAndWait().ifPresent((response -> {
-            if(response == ButtonType.OK) {
-                AppointmentQuery.cancelAppointment(SA.getAppointmentId());
-                appointmentTableView.setItems(getAppointments());
-            }
-        }));
+        Appointment SA = appointmentTableView.getSelectionModel().getSelectedItem();
+        if (SA == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("You must select an appointment to delete.");
+            alert.showAndWait();
+        } else if (appointmentTableView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to delete " + SA.getTitle() + " from appointment records?");
+            Optional<ButtonType> result = alert.showAndWait();
 
+            if (result.isPresent() && (result.get() == ButtonType.OK)) {
+                try {
+                    AppointmentQuery.cancelAppointment(SA.getAppointmentId());
+                    appointmentTableView.getItems().clear();
+                    appointmentTableView.setItems(AppointmentQuery.getAppointments());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

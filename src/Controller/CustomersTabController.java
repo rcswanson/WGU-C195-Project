@@ -15,13 +15,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static Main.JDBC.getConnection;
 import static Utilities.CustomerQuery.customers;
 import static Utilities.CustomerQuery.getCustomers;
 
@@ -101,23 +98,6 @@ public class CustomersTabController implements Initializable {
      * @param event ADD CUSTOMER CLICKED
      */
     public void onAddCustomerB(ActionEvent event) {
-        try {
-            int id = autoId;
-            String name = nameTextField.getText();
-            String address = addressTextField.getText();
-            String zipCode = zipCodeTextField.getText();
-            String phone = phoneTextField.getText();
-            String division = divisionComboBox.getValue();
-            String country = countryComboBox.getValue();
-
-            CustomerQuery.addCustomer(name, address, zipCode, phone, country, division);
-            autoId++;
-        } catch (Exception e) {
-            Alert emptyBox = new Alert(Alert.AlertType.ERROR, "The text boxes are invalid or empty.");
-            emptyBox.setTitle("ERROR");
-            emptyBox.showAndWait();
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -139,7 +119,7 @@ public class CustomersTabController implements Initializable {
             if (result.isPresent() && (result.get() == ButtonType.OK)) {
                 try {
                     CustomerQuery.deleteCustomer(SC.getCustomerId());
-                    customers.remove(SC);
+                    customerTableView.getItems().clear();
                     customerTableView.setItems(CustomerQuery.getCustomers());
                 } catch (Exception e) {
                     e.printStackTrace();

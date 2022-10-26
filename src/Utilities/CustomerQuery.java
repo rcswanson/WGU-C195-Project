@@ -41,31 +41,6 @@ public class CustomerQuery {
         return null;
     }
 
-    public static void addCustomer(String name, String address, String zipCode, String phone, String country, String division) throws SQLException {
-        Statement statement = JDBC.getConnection().createStatement();
-        String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Country, Division) " +
-                    "VALUES (?,?,?,?,?,?)";
-
-        DBQuery.setPreparedStatement(JDBC.getConnection(), query);
-        PreparedStatement preparedStatement = DBQuery.getPreparedStatement();
-
-        preparedStatement.setString(1, name);
-        preparedStatement.setString(2, address);
-        preparedStatement.setString(3, zipCode);
-        preparedStatement.setString(4, phone);
-        preparedStatement.setString(5, country);
-        preparedStatement.setString(6, division);
-
-        try {
-
-        preparedStatement.execute();
-
-
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-        }
-    }
-
     // EXECUTES SQL STATEMENT TO DELETE CUSTOMER FROM DATABASE
     public static boolean deleteCustomer(int customerId) throws SQLException {
         try {

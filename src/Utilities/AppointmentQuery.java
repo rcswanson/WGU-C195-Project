@@ -2,7 +2,6 @@ package Utilities;
 
 import Main.JDBC;
 import Model.Appointment;
-import Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,11 +14,10 @@ import static Main.JDBC.connection;
 
 public class AppointmentQuery {
 
-    static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-
     // OBSERVABLE LIST OF DATA ENTRIES IN APPOINTMENTS SCHEMA
+    public static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
     public static ObservableList<Appointment> getAppointments() {
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         try {
             PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM appointments");
             ResultSet rs = pStmt.executeQuery();
@@ -50,7 +48,7 @@ public class AppointmentQuery {
     public static boolean cancelAppointment(int appointmentId) {
         try {
             Statement statement = JDBC.getConnection().createStatement();
-            String query = "DELETE FROM appointments WHERE Customer_ID = " + appointmentId;
+            String query = "DELETE FROM appointments WHERE Appointment_ID = " + appointmentId;
             int update = statement.executeUpdate(query);
             if(update == 1) {
                 return true;
