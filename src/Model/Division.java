@@ -15,6 +15,10 @@ public class Division {
     private String division;
     private int countryId;
 
+    public Division() {
+
+    }
+
     // CONSTRUCTOR
     public Division(int divisionId, String division, int countryId) {
         this.divisionId = divisionId;

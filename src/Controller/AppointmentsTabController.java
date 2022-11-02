@@ -14,8 +14,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static Utilities.AppointmentQuery.appointments;
-import static Utilities.AppointmentQuery.getAppointments;
+import static Utilities.AppointmentQuery.*;
 import static Utilities.CustomerQuery.customers;
 
 public class AppointmentsTabController implements Initializable {
@@ -36,11 +35,11 @@ public class AppointmentsTabController implements Initializable {
     public Button addAppointment;
     public Button editAppointment;
     public Button cancelAppointment;
+    public RadioButton filterWeekB;
+    public RadioButton filterMonthB;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
 
         // SETS EACH COLUMN TO APPOINTMENT INFO
         appointmentTableView.setItems(getAppointments());
@@ -56,11 +55,18 @@ public class AppointmentsTabController implements Initializable {
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
+
     public void onAddAppt(ActionEvent event) {
+
+
+
     }
 
 
     public void onEditAppt(ActionEvent event) {
+
+
+
     }
 
     /**

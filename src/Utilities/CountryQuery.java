@@ -1,8 +1,7 @@
 package Utilities;
 
-import Main.JDBC;
 import Model.Country;
-import Model.Division;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,63 +9,45 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static Main.JDBC.getConnection;
+import static Main.JDBC.connection;
 
 public class CountryQuery {
 
     public static ObservableList<Country> getCountries() throws SQLException {
         ObservableList<Country> countries = FXCollections.observableArrayList();
 
-        String queryStatement = "SELECT * FROM countries";
+        PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM countries");
+        pStmt.execute();
+        ResultSet rs = pStmt.getResultSet();
 
-        DBQuery.setPreparedStatement(getConnection(), queryStatement);
-        PreparedStatement preparedStatement = DBQuery.getPreparedStatement();
-
-        try {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
-
-            while (resultSet.next()) {
-
-                Country newCountry = new Country(
-                        resultSet.getInt("Country_ID"),
-                        resultSet.getString("Country")
-                );
-
-                countries.add(newCountry);
-            }
-            return countries;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+        while (rs.next()) {
+            Country newCountry = getResultSet(rs);
+            countries.add(newCountry);
         }
+        return countries;
     }
 
-    public static Country getCountryId(String country) throws SQLException {
+    public static Country getCountryWithId(int Id) throws SQLException {
 
-        String queryStatement = "SELECT * FROM countries WHERE Country=?";
+        Country country = new Country();
+        String query = "SELECT * FROM countries WHERE Country_ID=?";
+        PreparedStatement pStmt = connection.prepareStatement(query);
 
-        DBQuery.setPreparedStatement(getConnection(), queryStatement);
-        PreparedStatement preparedStatement = DBQuery.getPreparedStatement();
+        pStmt.setInt(1, Id);
+        pStmt.execute();
+        ResultSet rs = pStmt.getResultSet();
 
-        preparedStatement.setString(1, country);
+        country = getResultSet(rs);
 
-        try {
-            preparedStatement.execute();
-            ResultSet resultSet = preparedStatement.getResultSet();
-
-            while (resultSet.next()) {
-                Country newCountry = new Country(
-                        resultSet.getInt("Country_ID"),
-                        resultSet.getString("Country")
-                );
-                return newCountry;
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return null;
+        return country;
     }
 
+    private static Country getResultSet(ResultSet rs) throws SQLException{
+        Country country = new Country();
+
+        country.setCountryId(rs.getInt("Country_ID"));
+        country.setCountry(rs.getString("Country"));
+
+        return country;
+    }
 }
