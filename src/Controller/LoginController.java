@@ -1,7 +1,7 @@
 package Controller;
 
-import Model.User;
 import Utilities.FunctionLibrary;
+import Utilities.UserSql;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -54,7 +54,7 @@ public class LoginController implements Initializable {
 
         String username = loginName.getText();
         String password = loginPass.getText();
-        int userId = User.checkCreds(username, password);
+        int userId = UserSql.checkLogin(username, password);
 
         try {
             if (loginName.getText().isEmpty() && loginPass.getText().isEmpty()) {

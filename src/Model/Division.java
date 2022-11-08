@@ -1,23 +1,10 @@
 package Model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import static Main.JDBC.connection;
-
 public class Division {
 
     private int divisionId;
     private String division;
     private int countryId;
-
-    public Division() {
-
-    }
 
     // CONSTRUCTOR
     public Division(int divisionId, String division, int countryId) {

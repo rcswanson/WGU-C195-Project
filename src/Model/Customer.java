@@ -11,10 +11,6 @@ public class Customer {
     private String division;
     private String country;
 
-    public Customer() {
-
-    }
-
     // CONSTRUCTOR
     public Customer(int customerId, String customerName, String address,
                     String postalCode, String phoneNumber, int divisionId, String division,
@@ -27,6 +23,10 @@ public class Customer {
         this.divisionId = divisionId;
         this.division = division;
         this.country = country;
+    }
+
+    public Customer() {
+
     }
 
     // GETTERS AND SETTERS

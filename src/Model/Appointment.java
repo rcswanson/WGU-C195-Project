@@ -26,7 +26,6 @@ public class Appointment {
     private int customerId;
     private int userId;
 
-
     // CONSTRUCTOR
     public Appointment(int appointmentId, String title, String description,
                        String location, String contactId, String type, LocalDate startDate,

@@ -5,10 +5,6 @@ public class Country {
     private int countryId;
     private String country;
 
-    public Country() {
-
-    }
-
     // CONSTRUCTOR
     public Country(int countryId, String country) {
         this.countryId = countryId;

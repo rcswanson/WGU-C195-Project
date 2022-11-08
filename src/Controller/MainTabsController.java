@@ -1,11 +1,13 @@
 package Controller;
 
+import Utilities.UserSql;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,6 +20,7 @@ public class MainTabsController {
     public AnchorPane appointmentsTab;
     public AnchorPane customersTab;
     public Button logOut;
+    public Text loggedUser;
 
 
     // LOGS OUT OF SESSION AND RETURNS TO LOGIN WINDOW
@@ -28,4 +31,13 @@ public class MainTabsController {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
+//    public void loggedUser() {
+//        if (UserSql.checkLogin("test", "test")) {
+//            loggedUser.setText("Test");
+//        } else if (UserSql.checkLogin("admin", "admin")) {
+//            loggedUser.setText("Admin");
+//        }
+//
+//    }
 }
