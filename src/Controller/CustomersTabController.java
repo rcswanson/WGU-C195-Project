@@ -1,11 +1,10 @@
 package Controller;
 
+import Model.Appointment;
 import Model.Country;
 import Model.Customer;
 import Model.Division;
-import Utilities.CountrySql;
-import Utilities.CustomerSql;
-import Utilities.DivisionSql;
+import Utilities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +18,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
-//ALL THAT IS LEFT IS FIX SELECTCOUNTRY AND INSERTCUSTOMER
+//ALL THAT IS LEFT IS FIX INSERTCUSTOMER
 
 public class CustomersTabController implements Initializable {
 
@@ -69,39 +68,61 @@ public class CustomersTabController implements Initializable {
         setDivisionComboBox();
     }
 
+    public boolean addErrorCheck() {
+        // CHECKS FOR EMPTY INPUT FIELDS
+        if (nameTextField.getText().isEmpty() ||
+                addressTextField.getText().isEmpty() ||
+                zipCodeTextField.getText().isEmpty() ||
+                phoneTextField.getText().isEmpty() ||
+                divisionComboBox.getSelectionModel().isEmpty() ||
+                countryComboBox.getSelectionModel().isEmpty())
+        {
+            FunctionLibrary.displayAlert(4);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * PARSES INPUT INTO NEW CUSTOMER ENTRY IN DATABASE
-     * @param event ADD CUSTOMER CLICKED
+     * @param event ADD CUSTOMER button pressed
      */
     public void onAddCustomerB(ActionEvent event) throws SQLException {
 
-        if (idTextField.getText().equals("User ID - Auto Generated")) {
-            CustomerSql.insertCustomer(nameTextField.getText(),
-                    addressTextField.getText(),
-                    zipCodeTextField.getText(),
-                    phoneTextField.getText(),
-                    divisionComboBox.getValue(),
-                    countryComboBox.getValue());
+        boolean valid = addErrorCheck();
+
+        if (valid) {
+            if (idTextField.getText().equals("User ID - Auto Generated")) {
+                CustomerSql.insertCustomer(
+                        nameTextField.getText(),
+                        addressTextField.getText(),
+                        zipCodeTextField.getText(),
+                        phoneTextField.getText(),
+                        divisionComboBox.getValue(),
+                        countryComboBox.getValue());
+                clearTextFields();
+                customerTableView.getItems().clear();
+                customerTableView.setItems(CustomerSql.getCustomers());
+            }
+            else {
+                CustomerSql.updateCustomer(
+                        nameTextField.getText(),
+                        addressTextField.getText(),
+                        zipCodeTextField.getText(),
+                        phoneTextField.getText(),
+                        divisionComboBox.getValue(),
+                        countryComboBox.getValue(),
+                        Integer.parseInt(idTextField.getText()));
+                clearTextFields();
+                customerTableView.getItems().clear();
+                customerTableView.setItems(CustomerSql.getCustomers());
+            }
         }
-        else {
-            CustomerSql.updateCustomer(nameTextField.getText(),
-                    addressTextField.getText(),
-                    zipCodeTextField.getText(),
-                    phoneTextField.getText(),
-                    divisionComboBox.getValue(),
-                    countryComboBox.getValue());
-        }
-        clearTextFields();
-        customerTableView.getItems().clear();
-        customerTableView.setItems(CustomerSql.getCustomers());
     }
 
     // CLEARS TEXT FIELDS
-    public void onCancelB(ActionEvent actionEvent) {
-        clearTextFields();
-    }
-
     public void clearTextFields() {
+        idTextField.clear();
         idTextField.setText("User ID - Auto Generated");
         nameTextField.clear();
         addressTextField.clear();
@@ -111,10 +132,22 @@ public class CustomersTabController implements Initializable {
         divisionComboBox.getSelectionModel().clearSelection();
     }
 
-    // GRABS COLUMN DATA FROM SELECTED CUSTOMER AND SENDS IT TO TEXT FIELDS
+    /**
+     * CLEARS ALL INPUT FIELDS OF INFO
+     * @param actionEvent CANCEL BUTTON PRESSED
+     */
+    public void onCancelB(ActionEvent actionEvent) {
+        clearTextFields();
+    }
+
+    /**
+     * TAKES ALL INFO FROM SELECTED DATABASE ENTRY AND FILLS INPUT FIELDS WITH INFO
+     * @param event EDIT CUSTOMER PRESSED
+     */
     public void onEditCustomerB(ActionEvent event) {
         SC = customerTableView.getSelectionModel().getSelectedItem();
 
+        idTextField.clear();
         idTextField.setText(String.valueOf(SC.getCustomerId()));
         nameTextField.setText(SC.getCustomerName());
         addressTextField.setText(SC.getAddress());
@@ -141,9 +174,18 @@ public class CustomersTabController implements Initializable {
 
             if (result.isPresent() && (result.get() == ButtonType.OK)) {
                 try {
-                    CustomerSql.deleteCustomer(SC);
-                    customerTableView.getItems().clear();
-                    customerTableView.setItems(CustomerSql.getCustomers());
+                    ObservableList<Appointment> appointments = AppointmentSql.getApptByCustomerId(SC.getCustomerId());
+                    if (appointments != null && appointments.size() < 1) {
+                        CustomerSql.deleteCustomer(SC);
+                        customerTableView.getItems().clear();
+                        customerTableView.setItems(CustomerSql.getCustomers());
+                    } else {
+                        Alert deleteAlert = new Alert(Alert.AlertType.ERROR);
+                        deleteAlert.setTitle("UNSUCCESSFUL");
+                        deleteAlert.setContentText("You must delete all appointments under Customer ID: " + SC.getCustomerId() + " before deleting this customer");
+                        deleteAlert.showAndWait();
+
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

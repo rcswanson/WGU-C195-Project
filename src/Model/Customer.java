@@ -2,7 +2,7 @@ package Model;
 
 public class Customer {
 
-    private static int customerId;
+    private int customerId;
     private String customerName;
     private String address;
     private String postalCode;
@@ -23,10 +23,6 @@ public class Customer {
         this.divisionId = divisionId;
         this.division = division;
         this.country = country;
-    }
-
-    public Customer() {
-
     }
 
     // GETTERS AND SETTERS

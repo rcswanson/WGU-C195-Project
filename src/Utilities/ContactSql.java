@@ -12,10 +12,9 @@ import static Main.JDBC.connection;
 
 public class ContactSql {
 
-    public static ObservableList<Contact> contacts = FXCollections.observableArrayList();
-
-    // EXECUTES SQL STATEMENT TO RETRIEVE ALL DATA FROM SCHEMA
+    // EXECUTES STATEMENT TO RETRIEVE ALL DATA FROM SCHEMA
     public static ObservableList<Contact> getContacts() {
+        ObservableList<Contact> contacts = FXCollections.observableArrayList();
         try {
             PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM contacts");
             ResultSet rs = pStmt.executeQuery();
@@ -27,6 +26,26 @@ public class ContactSql {
                 contacts.add(newContact);
             }
             return contacts;
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+        return null;
+    }
+
+    // EXECUTES STATEMENT GETTING CONTACT ID
+    public static Contact getContactId(Integer contact) throws SQLException {
+        PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM contacts WHERE Contact_Name=?");
+        pStmt.setInt(1, contact);
+        try {
+            pStmt.execute();
+            ResultSet rs = pStmt.getResultSet();
+            while (rs.next()) {
+                Contact newContact = new Contact(
+                        rs.getInt("Contact_ID"),
+                        rs.getString("Contact_Name"),
+                        rs.getString("Contact_Email"));
+                return newContact;
+            }
         } catch (SQLException se) {
             se.printStackTrace();
         }

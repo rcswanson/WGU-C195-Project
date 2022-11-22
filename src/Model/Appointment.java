@@ -17,7 +17,7 @@ public class Appointment {
     private String title;
     private String description;
     private String location;
-    private String contactId;
+    private int contactId;
     private String type;
     private LocalDate startDate;
     private LocalDateTime startTime;
@@ -28,7 +28,7 @@ public class Appointment {
 
     // CONSTRUCTOR
     public Appointment(int appointmentId, String title, String description,
-                       String location, String contactId, String type, LocalDate startDate,
+                       String location, int contactId, String type, LocalDate startDate,
                        LocalDateTime startTime, LocalDate endDate, LocalDateTime endTime,
                        int customerId, int userId) {
         this.appointmentId = appointmentId;
@@ -45,6 +45,7 @@ public class Appointment {
         this.userId = userId;
     }
 
+    public static ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     // GETTERS AND SETTERS
     public int getAppointmentId() { return appointmentId; }
@@ -63,9 +64,9 @@ public class Appointment {
 
     public void setLocation(String location) { this.location = location; }
 
-    public String getContactId() { return contactId; }
+    public int getContactId() { return contactId; }
 
-    public void setContactId(String contactId) { this.contactId = contactId; }
+    public void setContactId(int contactId) { this.contactId = contactId; }
 
     public String getType() { return type; }
 

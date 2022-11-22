@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReportsTabController">
    <children>
-      <Text layoutX="524.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="REPORTS">
+      <RadioButton fx:id="monthRadio" layoutX="402.0" layoutY="276.0" mnemonicParsing="false" onAction="#onMonth" selected="true" text="Appointments by Month or Type">
          <font>
-            <Font size="36.0" />
+            <Font size="14.0" />
          </font>
-      </Text>
+         <toggleGroup>
+            <ToggleGroup fx:id="ReportFilter" />
+         </toggleGroup>
+      </RadioButton>
+      <ComboBox fx:id="monthComboBox" layoutX="628.0" layoutY="270.0" prefHeight="30.0" prefWidth="150.0" promptText="Month or Type" />
+      <RadioButton fx:id="contactRadio" layoutX="402.0" layoutY="326.0" mnemonicParsing="false" onAction="#onContact" text="Appointments by Contact" toggleGroup="$ReportFilter">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <ComboBox fx:id="contactComboBox" disable="true" layoutX="628.0" layoutY="320.0" prefHeight="30.0" prefWidth="150.0" promptText="Contact" />
+      <RadioButton fx:id="customerRadio" layoutX="402.0" layoutY="376.0" mnemonicParsing="false" onAction="#onCustomer" text="Appointments by Customer" toggleGroup="$ReportFilter">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <ComboBox fx:id="customerComboBox" disable="true" layoutX="628.0" layoutY="370.0" prefHeight="30.0" prefWidth="150.0" promptText="Customer" />
+      <Button fx:id="generateMonthType" layoutX="797.0" layoutY="271.0" mnemonicParsing="false" onAction="#generateMonthType" prefHeight="30.0" prefWidth="131.0" text="GENERATE REPORT" />
+      <Button fx:id="generateContact" disable="true" layoutX="797.0" layoutY="321.0" mnemonicParsing="false" onAction="#generateContact" prefHeight="30.0" prefWidth="131.0" text="GENERATE REPORT" />
+      <Button fx:id="generateCustomer" disable="true" layoutX="797.0" layoutY="370.0" mnemonicParsing="false" onAction="#generateCustomer" prefHeight="30.0" prefWidth="131.0" text="GENERATE REPORT" />
    </children>
 </AnchorPane>

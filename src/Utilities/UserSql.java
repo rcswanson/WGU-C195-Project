@@ -33,6 +33,24 @@ public class UserSql {
         return null;
     }
 
+    // EXECUTES STATEMENT TO GET USER BY ID
+    public static User getUserId(String user) throws SQLException {
+        try {
+            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM users WHERE User_Name=?");
+            ResultSet rs = pStmt.executeQuery();
+            while (rs.next()) {
+                User newUser = new User(
+                        rs.getInt("User_ID"),
+                        rs.getString("User_Name"),
+                        rs.getString("Password"));
+                return newUser;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // CHECKS FOR A MATCH BETWEEN INPUT AND USER DATA IN DATABASE
     public static int checkLogin(String username, String password) {
 
@@ -50,10 +68,6 @@ public class UserSql {
             se.printStackTrace();
         }
         return -1;
-    }
-
-    public void loggedUser() {
-
     }
 
 }

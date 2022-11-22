@@ -15,11 +15,9 @@ import static Main.JDBC.connection;
 
 public class DivisionSql {
 
-    // OBSERVABLE LIST OF DATA ENTRIES IN CUSTOMERS SCHEMA
-    public static ObservableList<Division> divisions = FXCollections.observableArrayList();
-
     // EXECUTES SQL STATEMENT TO RETRIEVE ALL DATA FROM SCHEMA
     public static ObservableList<Division> getDivisions() throws SQLException {
+        ObservableList<Division> divisions = FXCollections.observableArrayList();
         try {
             PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM first_level_divisions");
             ResultSet rs = pStmt.executeQuery();
@@ -40,24 +38,20 @@ public class DivisionSql {
     // EXECUTES SQL STATEMENT TO RETRIEVE DATA FROM SCHEMA TO MATCH ID
     public static Division getDivisionId(String division) throws SQLException {
         PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM first_level_divisions WHERE Division=?");
-
         pStmt.setString(1, division);
-
         try {
             pStmt.execute();
-            ResultSet resultSet = pStmt.getResultSet();
+            ResultSet rs = pStmt.getResultSet();
 
-            while (resultSet.next()) {
+            while (rs.next()) {
                 Division newDivision = new Division(
-                        resultSet.getInt("Division_ID"),
-                        resultSet.getString("Division"),
-                        resultSet.getInt("COUNTRY_ID")
-                );
+                        rs.getInt("Division_ID"),
+                        rs.getString("Division"),
+                        rs.getInt("Country_ID"));
                 return newDivision;
             }
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        } catch (SQLException se) {
+            se.printStackTrace();
         }
         return null;
     }
@@ -65,6 +59,7 @@ public class DivisionSql {
 
     // EXECUTES SQL STATEMENT RETRIEVING DIVISION THAT MATCHES SELECTED COUNTRY
     public static ObservableList<Division> getDivisionsByCountry(String country) throws SQLException {
+        ObservableList<Division> divisions = FXCollections.observableArrayList();
         Country newCountry = CountrySql.getCountryId(country);
         PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM first_level_divisions WHERE Country_ID=?");
         pStmt.setInt(1, newCountry.getCountryId());
