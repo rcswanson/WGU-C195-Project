@@ -291,7 +291,7 @@ public class AppointmentsTabController implements Initializable {
             alert.setContentText("You must select an appointment to delete.");
             alert.showAndWait();
         } else if (appointmentTableView.getSelectionModel().getSelectedItem() != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to delete " + SA.getTitle() + " from appointment records?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to delete " + SA.getAppointmentId() + ": " + SA.getType() + " from appointment records?");
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && (result.get() == ButtonType.OK)) {
