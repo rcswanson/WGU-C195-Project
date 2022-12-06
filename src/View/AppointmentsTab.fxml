@@ -26,7 +26,7 @@
             <TableColumn fx:id="customerIdCol" prefWidth="100.0" text="Customer ID" />
             <TableColumn fx:id="userIdCol" prefWidth="100.0" text="User ID" />
          </columns></TableView>
-      <TextField fx:id="apptIdTextField" disable="true" layoutX="982.0" layoutY="46.0" prefHeight="30.0" prefWidth="200.0" text="Appointment ID - Auto GeneratedAppointment ID - Auto Generated" />
+      <TextField fx:id="apptIdTextField" disable="true" layoutX="982.0" layoutY="46.0" prefHeight="30.0" prefWidth="200.0" text="Appointment ID - Auto Generated" />
       <TextField fx:id="titleTextField" layoutX="982.0" layoutY="86.0" prefHeight="30.0" prefWidth="200.0" promptText="Title" />
       <TextField fx:id="descTextField" layoutX="982.0" layoutY="126.0" prefHeight="30.0" prefWidth="200.0" promptText="Description" />
       <TextField fx:id="locationTextField" layoutX="982.0" layoutY="166.0" prefHeight="30.0" prefWidth="200.0" promptText="Location" />
@@ -37,7 +37,6 @@
       <ComboBox fx:id="endTimeComboBox" layoutX="983.0" layoutY="366.0" prefHeight="30.0" prefWidth="200.0" promptText="End Time" />
       <ComboBox fx:id="customerComboBox" layoutX="983.0" layoutY="406.0" prefHeight="30.0" prefWidth="200.0" promptText="Customer" />
       <ComboBox fx:id="contactComboBox" layoutX="983.0" layoutY="446.0" prefHeight="30.0" prefWidth="200.0" promptText="Contact" />
-      <TextField fx:id="userIdTextField" disable="false" layoutX="983.0" layoutY="486.0" prefHeight="30.0" prefWidth="200.0" promptText="User ID" />
       <Button fx:id="addAppointment" layoutX="1007.0" layoutY="527.0" mnemonicParsing="false" onAction="#onAddAppt" prefHeight="30.0" prefWidth="150.0" text="Add / Save Appointment">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -68,5 +67,6 @@
       </RadioButton>
       <Button fx:id="editAppointment" layoutX="983.0" layoutY="723.0" mnemonicParsing="false" onAction="#onEditAppt" prefHeight="26.0" prefWidth="126.0" text="Edit Appointment" />
       <Button fx:id="cancelAppointment" layoutX="983.0" layoutY="759.0" mnemonicParsing="false" onAction="#onDeleteAppt" text="Delete Appointment" />
+      <TextField fx:id="userIdTextField" layoutX="983.0" layoutY="486.0" prefHeight="30.0" prefWidth="200.0" promptText="User ID" />
    </children>
 </AnchorPane>

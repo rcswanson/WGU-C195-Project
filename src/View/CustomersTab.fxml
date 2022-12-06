@@ -17,7 +17,7 @@
          <TableColumn fx:id="postalCodeCol" prefWidth="75.0" text="Postal Code" />
          <TableColumn fx:id="phoneCol" prefWidth="125.0" text="Phone Number" />
          <TableColumn fx:id="divisionCol" prefWidth="125.0" text="Division" />
-         <TableColumn fx:id="countryCol" prefWidth="124.0" text="Country" />
+         <TableColumn fx:id="countryCol" prefWidth="125.0" text="Country" />
       </columns>
    </TableView>
    <Button fx:id="addCustomer" layoutX="1012.0" layoutY="326.0" mnemonicParsing="false" onAction="#onAddCustomerB" prefHeight="30.0" prefWidth="135.0" text="Add / Save Customer">

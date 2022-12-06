@@ -1,6 +1,7 @@
 package Controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,7 +12,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.Optional;
+
+interface EventHandler<T extends Event> extends EventListener {
+    void handle(T event);
+}
 
 public class MainTabsController {
 
@@ -21,7 +27,7 @@ public class MainTabsController {
     public AnchorPane appointmentsTab;
     public AnchorPane customersTab;
     public AnchorPane reportsTab;
-    public Button logOut;
+    //public Button logOut;
 
     // LOGS OUT OF SESSION AND RETURNS TO LOGIN WINDOW
     public void onLogOut(ActionEvent event) throws IOException {
@@ -38,4 +44,5 @@ public class MainTabsController {
             stage.show();
         }
     }
+
 }

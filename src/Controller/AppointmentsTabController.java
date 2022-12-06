@@ -45,12 +45,13 @@ public class AppointmentsTabController implements Initializable {
     public Button editAppointment;
     public Button cancelAppointment;
 
-    // COMBBOXES
+    // COMBOBOXES
     public ComboBox<CharSequence> startTimeComboBox;
     public ComboBox<CharSequence> endTimeComboBox;
     public ComboBox<Integer> contactComboBox;
     public ComboBox<Integer> customerComboBox;
     public ComboBox<String> typeComboBox;
+
 
     // INPUT FIELDS
     public TextField apptIdTextField;
@@ -174,6 +175,7 @@ public class AppointmentsTabController implements Initializable {
                         LocalDateTime.of(endDatePicker.getValue(), LocalTime.parse(endTimeComboBox.getSelectionModel().getSelectedItem())),
                         customerComboBox.getSelectionModel().getSelectedItem(),
                         Integer.parseInt(userIdTextField.getText()));
+
             }
             else {
                 AppointmentSql.updateAppointment(

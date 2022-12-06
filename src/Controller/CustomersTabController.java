@@ -17,9 +17,6 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-
-//ALL THAT IS LEFT IS FIX INSERTCUSTOMER
-
 public class CustomersTabController implements Initializable {
 
     // TABLE VIEW OF DATABASE CUSTOMERS
@@ -48,7 +45,7 @@ public class CustomersTabController implements Initializable {
     public TableColumn<Object, Object> divisionCol;
     public TableColumn<Object, Object> countryCol;
 
-    Customer SC;
+    private static Customer SC;
 
     //--------------------------------------------------------------------------------
 
@@ -61,7 +58,7 @@ public class CustomersTabController implements Initializable {
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+        divisionCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
         // SETS COUNTRIES AND DIVISIONS TO THEIR RESPECTIVE COMBO BOX
         setCountryComboBox();
@@ -98,8 +95,7 @@ public class CustomersTabController implements Initializable {
                         addressTextField.getText(),
                         zipCodeTextField.getText(),
                         phoneTextField.getText(),
-                        divisionComboBox.getValue(),
-                        countryComboBox.getValue());
+                        divisionComboBox.getValue());
                 clearTextFields();
                 customerTableView.getItems().clear();
                 customerTableView.setItems(CustomerSql.getCustomers());
@@ -111,7 +107,6 @@ public class CustomersTabController implements Initializable {
                         zipCodeTextField.getText(),
                         phoneTextField.getText(),
                         divisionComboBox.getValue(),
-                        countryComboBox.getValue(),
                         Integer.parseInt(idTextField.getText()));
                 clearTextFields();
                 customerTableView.getItems().clear();
@@ -154,7 +149,7 @@ public class CustomersTabController implements Initializable {
         zipCodeTextField.setText(SC.getPostalCode());
         phoneTextField.setText(SC.getPhoneNumber());
         countryComboBox.getSelectionModel().select(SC.getCountry());
-        divisionComboBox.getSelectionModel().select(SC.getDivision());
+        divisionComboBox.getSelectionModel().select(SC.getDivisionId());
     }
 
     /**

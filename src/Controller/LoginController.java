@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -119,7 +120,9 @@ public class LoginController implements Initializable {
                 Alert alertInform = new Alert(Alert.AlertType.INFORMATION);
                 alertInform.setTitle(setLanguage.getString("noUpcoming"));
                 alertInform.setContentText("No upcoming appointments within the next fifteen minutes");
-                alertInform.showAndWait();
+                alertInform.showAndWait()
+                        // LAMBDA
+                        .filter(response -> response == ButtonType.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();

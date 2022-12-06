@@ -20,7 +20,8 @@ public class DivisionSql {
         ObservableList<Division> divisions = FXCollections.observableArrayList();
         try {
             PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM first_level_divisions");
-            ResultSet rs = pStmt.executeQuery();
+            pStmt.execute();
+            ResultSet rs = pStmt.getResultSet();
             while (rs.next()) {
                 Division newDivision = new Division(
                         rs.getInt("Division_ID"),
@@ -59,8 +60,8 @@ public class DivisionSql {
 
     // EXECUTES SQL STATEMENT RETRIEVING DIVISION THAT MATCHES SELECTED COUNTRY
     public static ObservableList<Division> getDivisionsByCountry(String country) throws SQLException {
-        ObservableList<Division> divisions = FXCollections.observableArrayList();
         Country newCountry = CountrySql.getCountryId(country);
+        ObservableList<Division> divisions = FXCollections.observableArrayList();
         PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM first_level_divisions WHERE Country_ID=?");
         pStmt.setInt(1, newCountry.getCountryId());
         try {

@@ -16,7 +16,8 @@ public class CustomerSql {
     public static ObservableList<Customer> getCustomers() {
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         try {
-            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM customers");
+            PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM customers AS c INNER JOIN first_level_divisions AS d ON c.Division_ID = d.Division_ID " +
+                    "INNER JOIN countries AS co ON co.Country_ID=d.COUNTRY_ID;");
             ResultSet rs = pStmt.executeQuery();
             while (rs.next()) {
                 Customer newCustomer = new Customer(
@@ -26,7 +27,6 @@ public class CustomerSql {
                         rs.getString("Postal_Code"),
                         rs.getString("Phone"),
                         rs.getInt("Division_ID"),
-                        rs.getString("Division"),
                         rs.getString("Country"));
                 customers.add(newCustomer);
             }
@@ -53,7 +53,6 @@ public class CustomerSql {
                         rs.getString("Postal_Code"),
                         rs.getString("Phone"),
                         rs.getInt("Division_ID"),
-                        rs.getString("Division"),
                         rs.getString("Country"));
                 return newCustomer;
             }
@@ -64,32 +63,30 @@ public class CustomerSql {
     }
 
     // EXECUTES INSERT STATEMENT TO ADD A CUSTOMER TO SCHEMA
-    public static void insertCustomer(String customerName, String address, String postalCode, String phoneNumber, String division, String country) throws SQLException {
+    public static void insertCustomer(String customerName, String address, String postalCode, String phoneNumber, String division) throws SQLException {
         Division newDivision = DivisionSql.getDivisionId(division);
-        PreparedStatement pStmt = connection.prepareStatement("INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID, Country) VALUES (?,?,?,?,?,?)");
+        PreparedStatement pStmt = connection.prepareStatement("INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?,?,?,?,?)");
 
         pStmt.setString(1, customerName);
         pStmt.setString(2, address);
         pStmt.setString(3, postalCode);
         pStmt.setString(4, phoneNumber);
         pStmt.setInt(5, newDivision.getDivisionId());
-        pStmt.setString(6, country);
 
         pStmt.execute();
     }
 
     // EXECUTES STATEMENT TO UPDATE A CUSTOMER IN THE SCHEMA
-    public static void updateCustomer(String customerName, String address, String postalCode, String phoneNumber, String division, String country, int customerId) throws SQLException {
+    public static void updateCustomer(String customerName, String address, String postalCode, String phoneNumber, String division, int customerId) throws SQLException {
         Division newDivision = DivisionSql.getDivisionId(division);
-        PreparedStatement pStmt = connection.prepareStatement("UPDATE customers SET Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Division_ID=?, Country=? WHERE Customer_ID=?");
+        PreparedStatement pStmt = connection.prepareStatement("UPDATE customers SET Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Division_ID=? WHERE Customer_ID=?");
 
         pStmt.setString(1, customerName);
         pStmt.setString(2, address);
         pStmt.setString(3, postalCode);
         pStmt.setString(4, phoneNumber);
         pStmt.setInt(5, newDivision.getDivisionId());
-        pStmt.setString(6, country);
-        pStmt.setInt(7, customerId);
+        pStmt.setInt(6, customerId);
 
         pStmt.execute();
     }
