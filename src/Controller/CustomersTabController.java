@@ -1,5 +1,6 @@
 package Controller;
 
+import Main.JDBC;
 import Model.Appointment;
 import Model.Country;
 import Model.Customer;
@@ -18,7 +19,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomersTabController implements Initializable {
-
     // TABLE VIEW OF DATABASE CUSTOMERS
     public TableView<Customer> customerTableView;
 
@@ -60,6 +60,8 @@ public class CustomersTabController implements Initializable {
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+
+        customerTableView.sort();
         // SETS COUNTRIES AND DIVISIONS TO THEIR RESPECTIVE COMBO BOX
         setCountryComboBox();
         setDivisionComboBox();
@@ -96,9 +98,6 @@ public class CustomersTabController implements Initializable {
                         zipCodeTextField.getText(),
                         phoneTextField.getText(),
                         divisionComboBox.getValue());
-                clearTextFields();
-                customerTableView.getItems().clear();
-                customerTableView.setItems(CustomerSql.getCustomers());
             }
             else {
                 CustomerSql.updateCustomer(
@@ -108,10 +107,11 @@ public class CustomersTabController implements Initializable {
                         phoneTextField.getText(),
                         divisionComboBox.getValue(),
                         Integer.parseInt(idTextField.getText()));
-                clearTextFields();
-                customerTableView.getItems().clear();
-                customerTableView.setItems(CustomerSql.getCustomers());
             }
+            clearTextFields();
+            customerTableView.getItems().clear();
+            customerTableView.setItems(CustomerSql.getCustomers());
+            disableFields();
         }
     }
 
@@ -133,6 +133,7 @@ public class CustomersTabController implements Initializable {
      */
     public void onCancelB(ActionEvent actionEvent) {
         clearTextFields();
+        disableFields();
     }
 
     /**
@@ -149,7 +150,7 @@ public class CustomersTabController implements Initializable {
         zipCodeTextField.setText(SC.getPostalCode());
         phoneTextField.setText(SC.getPhoneNumber());
         countryComboBox.getSelectionModel().select(SC.getCountry());
-        divisionComboBox.getSelectionModel().select(SC.getDivisionId());
+        divisionComboBox.getSelectionModel().select(SC.getDivision());
     }
 
     /**
@@ -195,15 +196,15 @@ public class CustomersTabController implements Initializable {
     public void onSelectCountry(ActionEvent event) {
         ObservableList<String> divisionList = FXCollections.observableArrayList();
         try {
-            ObservableList<Division> divisions = DivisionSql.getDivisionsByCountry(countryComboBox.getSelectionModel().getSelectedItem());
-            if (divisions != null) {
-                for (Division division : divisions) {
+            ObservableList<Division> divisionsByCountry = DivisionSql.getDivisionsByCountry(countryComboBox.getSelectionModel().getSelectedItem());
+            if (divisionsByCountry != null) {
+                for (Division division : divisionsByCountry) {
                     divisionList.add(division.getDivision());
                 }
             }
             divisionComboBox.setItems(divisionList);
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (NullPointerException | SQLException e) {
+            System.out.print("NullPointer");
         }
     }
 
@@ -237,5 +238,23 @@ public class CustomersTabController implements Initializable {
             e.printStackTrace();
         }
         divisionComboBox.setItems(divisionList);
+    }
+
+    public void onUnlockFields(ActionEvent actionEvent) {
+        nameTextField.setDisable(false);
+        addressTextField.setDisable(false);
+        zipCodeTextField.setDisable(false);
+        phoneTextField.setDisable(false);
+        countryComboBox.setDisable(false);
+        divisionComboBox.setDisable(false);
+    }
+
+    public void disableFields() {
+        nameTextField.setDisable(true);
+        addressTextField.setDisable(true);
+        zipCodeTextField.setDisable(true);
+        phoneTextField.setDisable(true);
+        countryComboBox.setDisable(true);
+        divisionComboBox.setDisable(true);
     }
 }

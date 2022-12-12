@@ -13,12 +13,13 @@ public class Customer {
 
     // CONSTRUCTOR
     public Customer(int customerId, String customerName, String address,
-                    String postalCode, String phoneNumber, int divisionId, String country) {
+                    String postalCode, String phoneNumber, String division, int divisionId, String country) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
+        this.division = division;
         this.divisionId = divisionId;
         this.country = country;
     }

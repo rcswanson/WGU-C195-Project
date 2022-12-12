@@ -52,6 +52,9 @@ public class FunctionLibrary {
                 alertError.showAndWait();
             }
             case 4 -> {
+                alertError.setTitle("TIME ERROR");
+                alertError.setHeaderText("TIMES MUST BE DURING BUSINESS HOURS OF 8AM TO 10PM");
+                alertError.showAndWait();
             }
             case 5 -> {
                 alertInform.setTitle("noUpcoming");

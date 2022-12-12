@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseDragEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -136,6 +137,16 @@ public class AppointmentsTabController implements Initializable {
             return false;
         }
 
+        if (endT.isAfter(LocalTime.of(22, 0))) {
+            FunctionLibrary.displayAlert(4);
+            return false;
+        }
+
+        if (startT.isBefore(LocalTime.of(8,0))) {
+            FunctionLibrary.displayAlert(4);
+            return false;
+        }
+
         LocalDateTime apptStart;
         LocalDateTime apptEnd;
         LocalDateTime selectedStart = startD.atTime(startT);
@@ -193,6 +204,7 @@ public class AppointmentsTabController implements Initializable {
             clearTextFields();
             appointmentTableView.getItems().clear();
             appointmentTableView.setItems(AppointmentSql.getAppointments());
+            setFieldsDisabled();
         }
     }
 
@@ -202,6 +214,7 @@ public class AppointmentsTabController implements Initializable {
      */
     public void onCancelB(ActionEvent actionEvent) {
         clearTextFields();
+        setFieldsDisabled();
     }
 
     public void clearTextFields() {
@@ -359,5 +372,34 @@ public class AppointmentsTabController implements Initializable {
             e.printStackTrace();
         }
         contactComboBox.setItems(contactIdList);
+    }
+
+    public void onUnlockFields(ActionEvent actionEvent) {
+        titleTextField.setDisable(false);
+        descTextField.setDisable(false);
+        locationTextField.setDisable(false);
+        typeComboBox.setDisable(false);
+        startDatePicker.setDisable(false);
+        startTimeComboBox.setDisable(false);
+        endDatePicker.setDisable(false);
+        endTimeComboBox.setDisable(false);
+        customerComboBox.setDisable(false);
+        contactComboBox.setDisable(false);
+        userIdTextField.setDisable(false);
+        setCustomerComboBox();
+    }
+
+    public void setFieldsDisabled() {
+        titleTextField.setDisable(true);
+        descTextField.setDisable(true);
+        locationTextField.setDisable(true);
+        typeComboBox.setDisable(true);
+        startDatePicker.setDisable(true);
+        startTimeComboBox.setDisable(true);
+        endDatePicker.setDisable(true);
+        endTimeComboBox.setDisable(true);
+        customerComboBox.setDisable(true);
+        contactComboBox.setDisable(true);
+        userIdTextField.setDisable(true);
     }
 }

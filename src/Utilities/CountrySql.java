@@ -1,6 +1,5 @@
 package Utilities;
 
-import Main.JDBC;
 import Model.Country;
 
 import javafx.collections.FXCollections;
@@ -40,7 +39,6 @@ public class CountrySql {
         try {
             pStmt.execute();
             ResultSet rs = pStmt.getResultSet();
-
             while (rs.next()) {
                 Country newCountry = new Country(
                         rs.getInt("Country_ID"),

@@ -27,22 +27,22 @@
             <TableColumn fx:id="userIdCol" prefWidth="100.0" text="User ID" />
          </columns></TableView>
       <TextField fx:id="apptIdTextField" disable="true" layoutX="982.0" layoutY="46.0" prefHeight="30.0" prefWidth="200.0" text="Appointment ID - Auto Generated" />
-      <TextField fx:id="titleTextField" layoutX="982.0" layoutY="86.0" prefHeight="30.0" prefWidth="200.0" promptText="Title" />
-      <TextField fx:id="descTextField" layoutX="982.0" layoutY="126.0" prefHeight="30.0" prefWidth="200.0" promptText="Description" />
-      <TextField fx:id="locationTextField" layoutX="982.0" layoutY="166.0" prefHeight="30.0" prefWidth="200.0" promptText="Location" />
-      <ComboBox fx:id="typeComboBox" layoutX="983.0" layoutY="206.0" prefHeight="30.0" prefWidth="200.0" promptText="Type" />
-      <DatePicker fx:id="startDatePicker" layoutX="982.0" layoutY="246.0" prefHeight="30.0" prefWidth="200.0" promptText="Start Date" />
-      <ComboBox fx:id="startTimeComboBox" layoutX="983.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" promptText="Start Time" />
-      <DatePicker fx:id="endDatePicker" layoutX="982.0" layoutY="326.0" prefHeight="30.0" prefWidth="200.0" promptText="End Date" />
-      <ComboBox fx:id="endTimeComboBox" layoutX="983.0" layoutY="366.0" prefHeight="30.0" prefWidth="200.0" promptText="End Time" />
-      <ComboBox fx:id="customerComboBox" layoutX="983.0" layoutY="406.0" prefHeight="30.0" prefWidth="200.0" promptText="Customer" />
-      <ComboBox fx:id="contactComboBox" layoutX="983.0" layoutY="446.0" prefHeight="30.0" prefWidth="200.0" promptText="Contact" />
+      <TextField fx:id="titleTextField" disable="true" layoutX="982.0" layoutY="86.0" prefHeight="30.0" prefWidth="200.0" promptText="Title" />
+      <TextField fx:id="descTextField" disable="true" layoutX="982.0" layoutY="126.0" prefHeight="30.0" prefWidth="200.0" promptText="Description" />
+      <TextField fx:id="locationTextField" disable="true" layoutX="982.0" layoutY="166.0" prefHeight="30.0" prefWidth="200.0" promptText="Location" />
+      <ComboBox fx:id="typeComboBox" disable="true" layoutX="983.0" layoutY="206.0" prefHeight="30.0" prefWidth="200.0" promptText="Type" />
+      <DatePicker fx:id="startDatePicker" disable="true" layoutX="982.0" layoutY="246.0" prefHeight="30.0" prefWidth="200.0" promptText="Start Date" />
+      <ComboBox fx:id="startTimeComboBox" disable="true" layoutX="983.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" promptText="Start Time" />
+      <DatePicker fx:id="endDatePicker" disable="true" layoutX="982.0" layoutY="326.0" prefHeight="30.0" prefWidth="200.0" promptText="End Date" />
+      <ComboBox fx:id="endTimeComboBox" disable="true" layoutX="983.0" layoutY="366.0" prefHeight="30.0" prefWidth="200.0" promptText="End Time" />
+      <ComboBox fx:id="customerComboBox" disable="true" layoutX="983.0" layoutY="406.0" prefHeight="30.0" prefWidth="200.0" promptText="Customer" />
+      <ComboBox fx:id="contactComboBox" disable="true" layoutX="983.0" layoutY="446.0" prefHeight="30.0" prefWidth="200.0" promptText="Contact" />
       <Button fx:id="addAppointment" layoutX="1007.0" layoutY="527.0" mnemonicParsing="false" onAction="#onAddAppt" prefHeight="30.0" prefWidth="150.0" text="Add / Save Appointment">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font size="13.0" />
          </font>
       </Button>
-      <Button fx:id="cancelText" layoutX="1052.0" layoutY="567.0" mnemonicParsing="false" onAction="#onCancelB" prefHeight="30.0" prefWidth="60.0" text="Cancel">
+      <Button fx:id="cancelText" layoutX="1133.0" layoutY="567.0" mnemonicParsing="false" onAction="#onCancelB" prefHeight="30.0" prefWidth="60.0" text="Cancel">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -67,6 +67,7 @@
       </RadioButton>
       <Button fx:id="editAppointment" layoutX="983.0" layoutY="723.0" mnemonicParsing="false" onAction="#onEditAppt" prefHeight="26.0" prefWidth="126.0" text="Edit Appointment" />
       <Button fx:id="cancelAppointment" layoutX="983.0" layoutY="759.0" mnemonicParsing="false" onAction="#onDeleteAppt" text="Delete Appointment" />
-      <TextField fx:id="userIdTextField" layoutX="983.0" layoutY="486.0" prefHeight="30.0" prefWidth="200.0" promptText="User ID" />
+      <TextField fx:id="userIdTextField" disable="true" layoutX="983.0" layoutY="486.0" prefHeight="30.0" prefWidth="200.0" promptText="User ID" />
+      <Button fx:id="unlockFields" layoutX="972.0" layoutY="567.0" mnemonicParsing="false" onAction="#onUnlockFields" prefHeight="30.0" prefWidth="152.0" text="Enter Appointment Creator" />
    </children>
 </AnchorPane>

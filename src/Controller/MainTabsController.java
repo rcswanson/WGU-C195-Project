@@ -15,10 +15,6 @@ import java.io.IOException;
 import java.util.EventListener;
 import java.util.Optional;
 
-interface EventHandler<T extends Event> extends EventListener {
-    void handle(T event);
-}
-
 public class MainTabsController {
 
     static Stage stage;
@@ -44,5 +40,4 @@ public class MainTabsController {
             stage.show();
         }
     }
-
 }

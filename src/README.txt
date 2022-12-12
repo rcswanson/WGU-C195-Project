@@ -5,6 +5,7 @@ IDE: IntelliJ IDEA Community Version 2021.3.3
 JDK-18
 JavaFX-SDK-18
 USE: Upon the login screen opening, one must login with the correct username and password stored in the database. Once granted access, user can swap between appointments, customers, and reports with the tabs along the top.
-In the appointment/customer tab, user can fill in all information and hit add, adding the appointment/customer to the database. If an appointment/customer needs edited, user must select appointment/cudtomer from table and hit edit appointment/customer. Then the fields will populate with info.
+In the appointment/customer tab, user needs to select "enter create ___" and user can fill in all information and hit add, adding the appointment/customer to the database. If an appointment/customer needs edited, user must select appointment/customer from table and hit edit appointment/customer.
+Then the fields will populate with info. If user is in "Create user environment", one must cancel if not adding user/appointment.
 REPORT A3: User can select report and the system will show appointments relating to the customer ID selected.
 MySQL Driver: mysql-connector-java-8.0.30.jar
