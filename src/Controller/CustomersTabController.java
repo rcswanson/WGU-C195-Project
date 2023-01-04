@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -111,7 +112,6 @@ public class CustomersTabController implements Initializable {
             clearTextFields();
             customerTableView.getItems().clear();
             customerTableView.setItems(CustomerSql.getCustomers());
-            disableFields();
         }
     }
 
@@ -133,7 +133,6 @@ public class CustomersTabController implements Initializable {
      */
     public void onCancelB(ActionEvent actionEvent) {
         clearTextFields();
-        disableFields();
     }
 
     /**
@@ -165,7 +164,7 @@ public class CustomersTabController implements Initializable {
             alert.setContentText("You must select a customer to delete.");
             alert.showAndWait();
         } else if (customerTableView.getSelectionModel().getSelectedItem() != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to delete " + SC.getCustomerName() + " from customer records?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to delete " + SC.getCustomerId() + ": " + SC.getCustomerName() + " from customer records?");
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && (result.get() == ButtonType.OK)) {
@@ -175,15 +174,23 @@ public class CustomersTabController implements Initializable {
                         CustomerSql.deleteCustomer(SC);
                         customerTableView.getItems().clear();
                         customerTableView.setItems(CustomerSql.getCustomers());
-                    } else {
-                        Alert deleteAlert = new Alert(Alert.AlertType.ERROR);
+                    }
+                    else {
+                        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
                         deleteAlert.setTitle("UNSUCCESSFUL");
                         deleteAlert.setContentText("You must delete all appointments under Customer ID: " + SC.getCustomerId() + " before deleting this customer");
-                        deleteAlert.showAndWait();
-
+                        Optional<ButtonType> delResult = deleteAlert.showAndWait();
+                        if (delResult.isPresent() && (delResult.get() == ButtonType.OK)) {
+                            for (Appointment appointment : appointments) {
+                                AppointmentSql.deleteAppointment(appointment);
+                            }
+                        }
+                        CustomerSql.deleteCustomer(SC);
+                        customerTableView.getItems().clear();
+                        customerTableView.setItems(CustomerSql.getCustomers());
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (SQLException sqe) {
+                    System.out.print("SQLException");
                 }
             }
         }
@@ -238,23 +245,5 @@ public class CustomersTabController implements Initializable {
             e.printStackTrace();
         }
         divisionComboBox.setItems(divisionList);
-    }
-
-    public void onUnlockFields(ActionEvent actionEvent) {
-        nameTextField.setDisable(false);
-        addressTextField.setDisable(false);
-        zipCodeTextField.setDisable(false);
-        phoneTextField.setDisable(false);
-        countryComboBox.setDisable(false);
-        divisionComboBox.setDisable(false);
-    }
-
-    public void disableFields() {
-        nameTextField.setDisable(true);
-        addressTextField.setDisable(true);
-        zipCodeTextField.setDisable(true);
-        phoneTextField.setDisable(true);
-        countryComboBox.setDisable(true);
-        divisionComboBox.setDisable(true);
     }
 }

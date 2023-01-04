@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseDragEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -47,8 +46,8 @@ public class AppointmentsTabController implements Initializable {
     public Button cancelAppointment;
 
     // COMBOBOXES
-    public ComboBox<CharSequence> startTimeComboBox;
-    public ComboBox<CharSequence> endTimeComboBox;
+    public ComboBox<String> startTimeComboBox;
+    public ComboBox<String> endTimeComboBox;
     public ComboBox<Integer> contactComboBox;
     public ComboBox<Integer> customerComboBox;
     public ComboBox<String> typeComboBox;
@@ -101,7 +100,6 @@ public class AppointmentsTabController implements Initializable {
 
     /**
      * RUNS THROUGH IF STATEMENTS CHECKING FOR ERRORS
-     * @return true
      * @throws SQLException
      */
     public boolean addErrorCheck() throws SQLException {
@@ -142,7 +140,7 @@ public class AppointmentsTabController implements Initializable {
             return false;
         }
 
-        if (startT.isBefore(LocalTime.of(8,0))) {
+        if (startT.isBefore(LocalTime.of(8, 0))) {
             FunctionLibrary.displayAlert(4);
             return false;
         }
@@ -152,15 +150,21 @@ public class AppointmentsTabController implements Initializable {
         LocalDateTime selectedStart = startD.atTime(startT);
         LocalDateTime selectedEnd = endD.atTime(endT);
 
-        ObservableList<Appointment> appointments = AppointmentSql.getApptByCustomerId(customerComboBox.getSelectionModel().getSelectedItem());
-        for (Appointment appointment : appointments) {
-            apptStart = appointment.getStartDate().atTime(appointment.getStartTime().toLocalTime());
-            apptEnd = appointment.getEndDate().atTime(appointment.getEndTime().toLocalTime());
-            if (apptStart.isAfter(selectedStart) && apptStart.isBefore(selectedEnd)) {
-                FunctionLibrary.displayAlert(9);
-            } else if (apptEnd.isAfter(selectedStart) && apptEnd.isBefore(selectedEnd)) {
-                FunctionLibrary.displayAlert(9);
+        try {
+            ObservableList<Appointment> appointments = AppointmentSql.getApptByCustomerId(customerComboBox.getSelectionModel().getSelectedItem());
+            for (Appointment appointment : appointments) {
+                apptStart = appointment.getStartDate().atTime(appointment.getStartTime().toLocalTime());
+                apptEnd = appointment.getEndDate().atTime(appointment.getEndTime().toLocalTime());
+                if (apptStart.isAfter(selectedStart) && apptEnd.isBefore(selectedEnd)) {
+                    FunctionLibrary.displayAlert(9);
+                    return false;
+                } else if (apptEnd.isAfter(selectedStart) && apptStart.isBefore(selectedEnd)) {
+                    FunctionLibrary.displayAlert(9);
+                    return false;
+                }
             }
+        } catch (SQLException se) {
+            se.printStackTrace();
         }
         return true;
     }
@@ -186,7 +190,6 @@ public class AppointmentsTabController implements Initializable {
                         LocalDateTime.of(endDatePicker.getValue(), LocalTime.parse(endTimeComboBox.getSelectionModel().getSelectedItem())),
                         customerComboBox.getSelectionModel().getSelectedItem(),
                         Integer.parseInt(userIdTextField.getText()));
-
             }
             else {
                 AppointmentSql.updateAppointment(
@@ -204,7 +207,6 @@ public class AppointmentsTabController implements Initializable {
             clearTextFields();
             appointmentTableView.getItems().clear();
             appointmentTableView.setItems(AppointmentSql.getAppointments());
-            setFieldsDisabled();
         }
     }
 
@@ -214,7 +216,6 @@ public class AppointmentsTabController implements Initializable {
      */
     public void onCancelB(ActionEvent actionEvent) {
         clearTextFields();
-        setFieldsDisabled();
     }
 
     public void clearTextFields() {
@@ -267,7 +268,6 @@ public class AppointmentsTabController implements Initializable {
      */
     public void onEditAppt(ActionEvent event) throws SQLException {
         SA = appointmentTableView.getSelectionModel().getSelectedItem();
-
         try {
             Appointment appointment = AppointmentSql.getApptByApptId(SA.getAppointmentId());
 
@@ -291,6 +291,15 @@ public class AppointmentsTabController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void onRefresh(ActionEvent actionEvent) {
+        appointmentTableView.getItems().clear();
+        appointmentTableView.setItems(getAppointments());
+        allApptB.isSelected();
+
+        setCustomerComboBox();
     }
 
     /**
@@ -325,7 +334,7 @@ public class AppointmentsTabController implements Initializable {
      * POPULATES COMBO BOX WITH TIME SELECTIONS BETWEEN 8AM AND 10PM
      */
     public void setTimeComboBox() {
-        ObservableList<CharSequence> time = FXCollections.observableArrayList();
+        ObservableList<String> time = FXCollections.observableArrayList();
         LocalTime startTime = LocalTime.of(8,0);
         LocalTime endTime = LocalTime.of(22,0);
 
@@ -372,34 +381,5 @@ public class AppointmentsTabController implements Initializable {
             e.printStackTrace();
         }
         contactComboBox.setItems(contactIdList);
-    }
-
-    public void onUnlockFields(ActionEvent actionEvent) {
-        titleTextField.setDisable(false);
-        descTextField.setDisable(false);
-        locationTextField.setDisable(false);
-        typeComboBox.setDisable(false);
-        startDatePicker.setDisable(false);
-        startTimeComboBox.setDisable(false);
-        endDatePicker.setDisable(false);
-        endTimeComboBox.setDisable(false);
-        customerComboBox.setDisable(false);
-        contactComboBox.setDisable(false);
-        userIdTextField.setDisable(false);
-        setCustomerComboBox();
-    }
-
-    public void setFieldsDisabled() {
-        titleTextField.setDisable(true);
-        descTextField.setDisable(true);
-        locationTextField.setDisable(true);
-        typeComboBox.setDisable(true);
-        startDatePicker.setDisable(true);
-        startTimeComboBox.setDisable(true);
-        endDatePicker.setDisable(true);
-        endTimeComboBox.setDisable(true);
-        customerComboBox.setDisable(true);
-        contactComboBox.setDisable(true);
-        userIdTextField.setDisable(true);
     }
 }

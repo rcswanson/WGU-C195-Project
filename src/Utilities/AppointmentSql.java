@@ -161,10 +161,10 @@ public class AppointmentSql {
     }
 
     // EXECUTES STATEMENT GATHERING APPOINTMENTS BY CUSTOMER ID
-    public static ObservableList<Appointment> getApptByCustomerId(int customer) throws SQLException {
+    public static ObservableList<Appointment> getApptByCustomerId(int customerId) throws SQLException {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM appointments AS a INNER JOIN contacts AS c ON a.Contact_ID=c.Contact_ID WHERE Customer_ID=?");
-        pStmt.setInt(1, customer);
+        pStmt.setInt(1, customerId);
         try {
             pStmt.execute();
             ResultSet rs = pStmt.getResultSet();
@@ -185,10 +185,10 @@ public class AppointmentSql {
                 appointments.add(newAppointment);
             }
             return appointments;
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     // EXECUTES STATEMENT GATHERING APPOINTMENTS BY CONTACT ID

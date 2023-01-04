@@ -33,11 +33,10 @@
    <Button fx:id="editCustomer" layoutX="979.0" layoutY="724.0" mnemonicParsing="false" onAction="#onEditCustomerB" prefHeight="26.0" prefWidth="109.0" text="Edit Customer" />
    <Button fx:id="deleteCustomer" layoutX="979.0" layoutY="760.0" mnemonicParsing="false" onAction="#onDeleteCustomerB" text="Delete Customer" />
    <TextField fx:id="idTextField" disable="true" layoutX="979.0" layoutY="46.0" prefHeight="30.0" prefWidth="200.0" text="User ID - Auto Generated" />
-   <TextField fx:id="nameTextField" disable="true" layoutX="979.0" layoutY="86.0" prefHeight="30.0" prefWidth="200.0" promptText="First &amp; Last Name" />
-   <TextField fx:id="addressTextField" disable="true" layoutX="979.0" layoutY="126.0" prefHeight="30.0" prefWidth="200.0" promptText="Address" />
-   <TextField fx:id="zipCodeTextField" disable="true" layoutX="979.0" layoutY="166.0" prefHeight="30.0" prefWidth="200.0" promptText="Postal Code" />
-   <TextField fx:id="phoneTextField" disable="true" layoutX="979.0" layoutY="206.0" prefHeight="30.0" prefWidth="200.0" promptText="Phone Number" />
-   <ComboBox fx:id="countryComboBox" disable="true" layoutX="979.0" layoutY="246.0" onAction="#onSelectCountry" prefHeight="30.0" prefWidth="200.0" promptText="Country" visibleRowCount="3" />
-   <ComboBox fx:id="divisionComboBox" disable="true" layoutX="979.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" promptText="State / Province" />
-   <Button fx:id="unlockFields" layoutX="1003.0" layoutY="326.0" mnemonicParsing="false" onAction="#onUnlockFields" prefHeight="30.0" prefWidth="152.0" text="Enter Customer Creator" />
+   <TextField fx:id="nameTextField" layoutX="979.0" layoutY="86.0" prefHeight="30.0" prefWidth="200.0" promptText="First &amp; Last Name" />
+   <TextField fx:id="addressTextField" layoutX="979.0" layoutY="126.0" prefHeight="30.0" prefWidth="200.0" promptText="Address" />
+   <TextField fx:id="zipCodeTextField" layoutX="979.0" layoutY="166.0" prefHeight="30.0" prefWidth="200.0" promptText="Postal Code" />
+   <TextField fx:id="phoneTextField" layoutX="979.0" layoutY="206.0" prefHeight="30.0" prefWidth="200.0" promptText="Phone Number" />
+   <ComboBox fx:id="countryComboBox" layoutX="979.0" layoutY="246.0" onAction="#onSelectCountry" prefHeight="30.0" prefWidth="200.0" promptText="Country" visibleRowCount="3" />
+   <ComboBox fx:id="divisionComboBox" layoutX="979.0" layoutY="286.0" prefHeight="30.0" prefWidth="200.0" promptText="State / Province" />
 </AnchorPane>

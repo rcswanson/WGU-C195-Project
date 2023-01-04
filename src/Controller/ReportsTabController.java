@@ -238,30 +238,16 @@ public class ReportsTabController implements Initializable {
 
     public void generateCustomer(ActionEvent actionEvent) throws SQLException {
         int customerId = customerComboBox.getSelectionModel().getSelectedItem();
-        ObservableList<Appointment> apptByCustomer = AppointmentSql.getApptByCustomerId(customerId);
-        if (apptByCustomer != null) {
-            for (Appointment appointment : apptByCustomer) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Appointments of Customer ID: " + customerId);
-                alert.setHeaderText("REPORT GENERATED");
-                alert.setContentText(
-                        "Appointment ID: " + appointment.getAppointmentId() +
-                                "\nTitle: " + appointment.getTitle() +
-                                "\nDescription: " + appointment.getDescription() +
-                                "\nType: " + appointment.getType() +
-                                "\nStart: " + appointment.getStartTime() +
-                                "\nEnd: " + appointment.getEndTime() +
-                                "\nContact ID: " + appointment.getContactId()
-                );
-                alert.showAndWait();
-            }
-        }
-        if (apptByCustomer.size() < 1) {
+        try {
+            ObservableList<Appointment> appointments = AppointmentSql.getApptByCustomerId(customerId);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Appointments of Customer ID: " + customerId);
+            alert.setTitle("Customer Appointment Count for: " + customerId);
             alert.setHeaderText("REPORT GENERATED");
-            alert.setContentText("No appointments found for selected customer");
+            alert.setContentText("Total number of Customer Appointments scheduled for Customer ID #" + customerId + ": " + appointments.size());
             alert.showAndWait();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
